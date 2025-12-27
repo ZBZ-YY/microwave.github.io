@@ -1,0 +1,3966 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Microwave Demos</title>
+    <style>
+        :root {
+            --bg0: #0e1628;
+            --bg1: #1a223a;
+            --card: rgba(255, 255, 255, 0.10);
+            --card2: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.13);
+            --text: #f3f6fa;
+            --muted: #b6c2d1;
+            --primary: #5ad1fa;
+            --primary2: #a78bfa;
+            --danger: #fb7185;
+            --shadow: 0 6px 32px 0 rgba(0, 0, 0, 0.22);
+            --radius: 18px;
+            --radius2: 12px;
+            --card-hover: rgba(90, 209, 250, 0.13);
+            --card-active: rgba(90, 209, 250, 0.19);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 600px at 10% -10%, rgba(90, 209, 250, 0.22), transparent 55%),
+                radial-gradient(1000px 520px at 90% 0%, rgba(167, 139, 250, 0.18), transparent 55%),
+                radial-gradient(900px 600px at 20% 100%, rgba(34, 211, 238, 0.13), transparent 55%),
+                linear-gradient(180deg, var(--bg0), var(--bg1));
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(14px);
+            background: rgba(18, 28, 48, 0.68);
+            border-bottom: 1.5px solid var(--border);
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.10);
+        }
+
+        .topbarInner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .brandTitle {
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(90, 209, 250, 0.10);
+        }
+
+        .brandSub {
+            font-size: 13px;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            border: 1.5px solid var(--border);
+            background: rgba(255, 255, 255, 0.09);
+            color: var(--text);
+            padding: 10px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+            transition: background 0.18s, border 0.18s, color 0.18s;
+            box-shadow: 0 2px 8px 0 rgba(90, 209, 250, 0.04);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #222;
+            border-color: var(--primary);
+        }
+
+        .btn:active {
+            background: var(--card-active);
+            color: var(--primary2);
+        }
+
+        .btnPrimary {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary2) 80%);
+            color: #fff;
+            box-shadow: 0 4px 16px 0 rgba(90, 209, 250, 0.13);
+        }
+
+        .btnPrimary:hover {
+            background: var(--primary2);
+            color: #fff;
+            border-color: var(--primary2);
+        }
+
+        .btnGhost {
+            background: transparent;
+        }
+
+        .btnDanger {
+            border-color: var(--danger);
+            background: rgba(251, 113, 133, 0.13);
+            color: #fff;
+        }
+
+        .main {
+            max-width: 1120px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 20px 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 28px 24px 22px 24px;
+            border-radius: var(--radius);
+            border: 1.5px solid var(--primary2);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(90, 209, 250, 0.07));
+            box-shadow: 0 6px 32px 0 rgba(90, 209, 250, 0.10);
+            align-items: flex-start;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            color: var(--primary);
+            text-shadow: 0 2px 8px rgba(90, 209, 250, 0.10);
+        }
+
+        .hero p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 980px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 18px 18px 18px;
+            background: linear-gradient(180deg, var(--card), var(--card2));
+            box-shadow: 0 6px 32px 0 rgba(90, 209, 250, 0.10);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 170px;
+            transition: background 0.18s, border 0.18s, box-shadow 0.18s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            background: var(--card-hover);
+            border-color: var(--primary);
+            box-shadow: 0 8px 36px 0 rgba(90, 209, 250, 0.18);
+            z-index: 2;
+        }
+
+        .card:active {
+            background: var(--card-active);
+            border-color: var(--primary2);
+        }
+
+        .cardTitle {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .cardTitle h2 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            color: var(--primary2);
+        }
+
+        .tag {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            border: 1.2px solid var(--primary2);
+            color: var(--primary2);
+            background: rgba(167, 139, 250, 0.08);
+            white-space: nowrap;
+        }
+
+        .cardDesc {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .cardFooter {
+            margin-top: auto;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .enter {
+            width: 100%;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            padding: 12px 0;
+            border-radius: 999px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            box-shadow: 0 2px 8px 0 rgba(90, 209, 250, 0.10);
+            transition: background 0.18s, color 0.18s;
+        }
+
+        .enter:hover {
+            background: var(--primary2);
+            color: #fff;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .frameShell {
+            border: 1.5px solid var(--primary2);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 6px 32px 0 rgba(90, 209, 250, 0.10);
+            height: calc(100vh - 74px - 18px - 22px);
+            min-height: 520px;
+            margin-top: 18px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+            background: #fff;
+        }
+
+        .kbd {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 8px;
+            border: 1px solid var(--primary2);
+            color: var(--primary2);
+            background: rgba(167, 139, 250, 0.10);
+            white-space: nowrap;
+        }
+
+        .sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header class="topbar" role="banner">
+            <div class="topbarInner">
+                <div class="brand">
+                    <div class="brandTitle" id="topTitle">Microwave Demo 集合</div>
+                    <div class="brandSub" id="topSub">选择一个选项进入；按 <span class="kbd">Esc</span> 可返回</div>
+                </div>
+
+                <div class="actions" id="actions">
+                    <button class="btn btnGhost" id="btnHome" type="button" style="display:none">返回选项</button>
+                    <button class="btn btnDanger" id="btnReload" type="button" style="display:none">重载当前仿真</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main" role="main">
+            <section class="view active" id="viewMenu" aria-label="Demo 选择">
+                <div class="hero">
+                    <h1>请选择要打开的仿真</h1>
+                    <p>说明：三个页面已合并进本文件；只需要这一个 HTML 即可运行。</p>
+                </div>
+
+                <div class="grid">
+                    <article class="card">
+                        <div class="cardTitle">
+                            <h2>选项 1 MZM 光谱分析</h2>
+
+                        </div>
+                        <p class="cardDesc">MZM 光谱分析相关的参数设置与图形展示。</p>
+                        <div class="cardFooter">
+                            <button class="btn btnPrimary enter" type="button" data-demo="demo1">进入</button>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardTitle">
+                            <h2>选项 2 级联相位调制器多载波</h2>
+
+                        </div>
+                        <p class="cardDesc">级联相位调制器多载波的前端仿真与可视化。</p>
+                        <div class="cardFooter">
+                            <button class="btn btnPrimary enter" type="button" data-demo="demo2">进入</button>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardTitle">
+                            <h2>选项 3 偏振调制器输出光谱</h2>
+
+                        </div>
+                        <p class="cardDesc">偏振调制器输出光谱（纯前端）的参数调节与图形展示。</p>
+                        <div class="cardFooter">
+                            <button class="btn btnPrimary enter" type="button" data-demo="demo3">进入</button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="view" id="viewDemo" aria-label="Demo 预览">
+                <div class="frameShell" aria-live="polite">
+                    <iframe id="demoFrame" title="Demo Frame" referrerpolicy="no-referrer"
+                        sandbox="allow-scripts allow-same-origin allow-downloads allow-forms allow-modals"></iframe>
+                </div>
+                <div class="sr" id="ariaStatus" aria-live="polite"></div>
+            </section>
+        </main>
+    </div>
+
+    <template id="tpl-demo1">
+        <!doctype html>
+        <html lang="zh-CN">
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>马赫-曾德尔调制器光谱分析</title>
+            <style>
+                :root {
+                    --bg: #f8f9fa;
+                    --card: #ffffff;
+                    --text: #1e293b;
+                    --muted: #64748b;
+                    --border: #e2e8f0;
+                    --primary: #2563eb;
+                    --secondary: #4f46e5;
+                    --accent: #dc2626;
+                }
+
+                * {
+                    box-sizing: border-box
+                }
+
+                body {
+                    margin: 0;
+                    font-family: Segoe UI, Microsoft YaHei, Arial, sans-serif;
+                    background: var(--bg);
+                    color: var(--text)
+                }
+
+                header {
+                    padding: 14px 18px;
+                    border-bottom: 1px solid var(--border);
+                    background: var(--card)
+                }
+
+                header h1 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 700
+                }
+
+                .wrap {
+                    display: flex;
+                    gap: 14px;
+                    padding: 14px;
+                    align-items: stretch
+                }
+
+                .panel {
+                    flex: 1;
+                    min-width: 320px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 6px 6px 6px 6px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+
+                .panel h2 {
+                    margin: 0 0 2px 0;
+                    font-size: 14px
+                }
+
+                .panel h3 {
+                    margin: 2px 0 0;
+                    font-size: 13px
+                }
+
+                .group {
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    padding: 6px 4px;
+                    background: #fff;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    margin-bottom: 4px;
+                }
+
+                .stack {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px
+                }
+
+                .check {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 12px;
+                    color: var(--muted)
+                }
+
+                .check input {
+                    width: auto;
+                    padding: 0;
+                    border: none
+                }
+
+                .grid {
+                    display: grid;
+                    grid-template-columns: 1fr 70px 1fr 70px;
+                    gap: 4px 10px;
+                    align-items: center;
+                }
+
+                label {
+                    font-size: 11px;
+                    color: var(--muted);
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    white-space: nowrap;
+                }
+
+                input,
+                select {
+                    padding: 3px 5px;
+                    border: 1px solid var(--border);
+                    border-radius: 5px;
+                    width: 100%;
+                    min-width: 0;
+                    font-size: 12px;
+                    box-sizing: border-box;
+                }
+
+                input[type="number"] {
+                    text-align: right
+                }
+
+                .btns {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 5px;
+                }
+
+                button {
+                    border: 1px solid var(--border);
+                    background: #fff;
+                    border-radius: 8px;
+                    padding: 5px 7px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    width: 100%;
+                }
+
+                button.primary {
+                    background: var(--primary);
+                    border-color: var(--primary);
+                    color: #fff
+                }
+
+                button.secondary {
+                    background: var(--secondary);
+                    border-color: var(--secondary);
+                    color: #fff
+                }
+
+                button.accent {
+                    background: var(--accent);
+                    border-color: var(--accent);
+                    color: #fff
+                }
+
+                .note {
+                    font-size: 11px;
+                    color: var(--muted);
+                    line-height: 1.45
+                }
+
+                .right {
+                    flex: 1;
+                    min-width: 320px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 8px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px
+                }
+
+                .toolbar {
+                    display: flex;
+                    gap: 8px;
+                    align-items: center;
+                    justify-content: space-between
+                }
+
+                .toolbarRight {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px
+                }
+
+                .toolbarRight button {
+                    width: auto;
+                    padding: 5px 8px
+                }
+
+                .status {
+                    font-size: 12px;
+                    color: var(--muted);
+                    white-space: nowrap
+                }
+
+                canvas {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1200 / 700;
+                    display: block;
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    background: #fff;
+                    cursor: crosshair
+                }
+            </style>
+        </head>
+
+        <body>
+            <header>
+                <h1>马赫-曾德尔调制器光谱分析</h1>
+            </header>
+
+            <div class="wrap">
+                <section class="panel">
+                    <h2>调制参数控制</h2>
+
+                    <div class="group">
+                        <h3>器件参数</h3>
+                        <div class="grid">
+                            <label for="vpi">半波电压 RF (V)</label>
+                            <input id="vpi" type="number" min="0.1" step="0.1" value="5" />
+
+                            <label for="vpiDc">半波电压 DC (V)</label>
+                            <input id="vpiDc" type="number" min="0.1" step="0.1" value="5" />
+
+                            <label for="p0mW">输入功率 (mW)</label>
+                            <input id="p0mW" type="number" min="0" step="0.1" value="10" />
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <h3>上臂参数</h3>
+                        <div class="grid">
+                            <label for="fmGHz">射频频率 (GHz)</label>
+                            <input id="fmGHz" type="number" min="0.01" step="0.01" value="1" />
+
+                            <label for="theta1">射频相位 theta1 (rad)</label>
+                            <input id="theta1" type="number" step="0.001" value="0" />
+
+                            <label for="vbias1">直流偏置 Vbias1 (V)</label>
+                            <input id="vbias1" type="number" step="0.001" value="1.25" />
+                        </div>
+                        <div class="note">备注：默认上下臂射频频率相同</div>
+                    </div>
+
+                    <div class="group">
+                        <h3>下臂参数</h3>
+                        <div class="grid">
+                            <label for="theta2">射频相位 theta2 (rad)</label>
+                            <input id="theta2" type="number" step="0.001" value="3.141592653589793" />
+
+                            <label for="vbias2">直流偏置 Vbias2 (V)</label>
+                            <input id="vbias2" type="number" step="0.001" value="-1.25" />
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <h3>调制方式</h3>
+                        <label class="check"><input id="forceScan" type="checkbox" /> 强制重新扫描参数</label>
+                        <div class="btns">
+                            <button id="btnModeDSB" class="primary">双边带 (DSB)</button>
+                            <button id="btnModeSSB" class="secondary">单边带 (SSB)</button>
+                            <button id="btnModeCS" class="accent">载波抑制 (CS)</button>
+                            <button id="btnResetParams">重置参数</button>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <h3>调制指数 (m = π·Vm / Vπ)</h3>
+                        <div class="grid">
+                            <label for="m">m (rad, 推挽)</label>
+                            <input id="m" type="number" min="0" step="0.001" value="0.628" />
+                        </div>
+                        <div class="note">备注：DSB/SSB/CS 下 m 均可修改（切换模式不重置）</div>
+                    </div>
+
+                    <div class="group">
+                        <h3>参数确定方式</h3>
+                        <div class="stack">
+                            <label class="check"><input id="srcScan" name="paramSource" type="radio" checked />
+                                扫描优化参数</label>
+                            <label class="check"><input id="srcTheory" name="paramSource" type="radio" />
+                                理论公式参数（贝塞尔）</label>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <h3>显示与计算</h3>
+                        <div class="note" id="displayModeNote">显示模式：相对峰值功率 (dB)</div>
+                        <div class="grid">
+                            <label id="yMinLabel" for="yMinDb">纵轴最小值 (dB)</label>
+                            <input id="yMinDb" type="number" step="1" value="-60" />
+
+                            <label for="yUnit">纵轴单位</label>
+                            <select id="yUnit">
+                                <option value="db" selected>dB</option>
+                                <option value="dbm">dBm</option>
+                            </select>
+
+                            <label for="deltaFGHz">显示频宽 ±Δf（GHz）</label>
+                            <input id="deltaFGHz" type="number" min="0.1" step="0.1" value="50" />
+
+                            <label for="samplePoints">采样点数（2 的幂）</label>
+                            <input id="samplePoints" type="number" min="256" step="256" value="4096" />
+
+                            <label for="tNs">仿真时长（ns）</label>
+                            <input id="tNs" type="number" min="1" step="1" value="50" />
+                        </div>
+                        <label class="check"><input id="manualCalc" type="checkbox" /> 需点击计算按钮刷新</label>
+                        <div class="btns">
+                            <button id="btnCalc" class="primary">计算并更新图谱</button>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <h3>图片保存</h3>
+                        <label class="check"><input id="autoSave" type="checkbox" /> 自动保存图片</label>
+                        <div class="btns">
+                            <button id="btnSaveFig">手动保存图片</button>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="right">
+                    <div class="toolbar">
+                        <div class="status" id="status">就绪</div>
+                        <div class="toolbarRight">
+                            <label class="check" style="margin:0"><input id="roiEnable" type="checkbox" />
+                                启用区域选择</label>
+                            <button id="btnZoomToRoi">放大到选区</button>
+                            <button id="btnResetZoom">重置缩放</button>
+                            <button id="btnExportRoi">导出选区图片</button>
+                            <button id="btnExport">手动保存图片</button>
+                        </div>
+                    </div>
+                    <canvas id="plot" width="1200" height="700"></canvas>
+                </section>
+            </div>
+
+            <script>
+                // ----------------- FFT（复数，原地迭代） -----------------
+                function bitReverse(n, bits) {
+                    let r = 0;
+                    for (let i = 0; i < bits; i++) {
+                        r = (r << 1) | (n & 1);
+                        n >>= 1;
+                    }
+                    return r;
+                }
+
+                function fft(re, im) {
+                    const n = re.length;
+                    const bits = Math.log2(n);
+                    if ((1 << bits) !== n) throw new Error('FFT length must be power of 2');
+
+                    for (let i = 0; i < n; i++) {
+                        const j = bitReverse(i, bits);
+                        if (j > i) {
+                            [re[i], re[j]] = [re[j], re[i]];
+                            [im[i], im[j]] = [im[j], im[i]];
+                        }
+                    }
+
+                    for (let size = 2; size <= n; size <<= 1) {
+                        const half = size >> 1;
+                        const step = -2 * Math.PI / size;
+                        for (let start = 0; start < n; start += size) {
+                            for (let k = 0; k < half; k++) {
+                                const angle = step * k;
+                                const wr = Math.cos(angle);
+                                const wi = Math.sin(angle);
+
+                                const i0 = start + k;
+                                const i1 = i0 + half;
+
+                                const tr = wr * re[i1] - wi * im[i1];
+                                const ti = wr * im[i1] + wi * re[i1];
+
+                                re[i1] = re[i0] - tr;
+                                im[i1] = im[i0] - ti;
+                                re[i0] = re[i0] + tr;
+                                im[i0] = im[i0] + ti;
+                            }
+                        }
+                    }
+                }
+
+                function fftshift(arr) {
+                    const n = arr.length;
+                    const half = n >> 1;
+                    const out = new Array(n);
+                    for (let i = 0; i < n; i++) out[i] = arr[(i + half) % n];
+                    return out;
+                }
+
+                // ----------------- 绘图（Canvas） -----------------
+                function plotLine(canvas, x, y, opts) {
+                    const ctx = canvas.getContext('2d');
+                    const W = canvas.width, H = canvas.height;
+                    ctx.clearRect(0, 0, W, H);
+
+                    const padL = 70, padR = 18, padT = 18, padB = 56;
+                    const innerW = W - padL - padR;
+                    const innerH = H - padT - padB;
+
+                    const xMin = opts?.xMin ?? Math.min(...x);
+                    const xMax = opts?.xMax ?? Math.max(...x);
+                    let yMin = opts?.yMin ?? Math.min(...y);
+                    let yMax = opts?.yMax ?? Math.max(...y);
+                    if (yMax - yMin < 1e-9) { yMax = yMin + 1; }
+
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(0, 0, W, H);
+
+                    ctx.strokeStyle = 'rgba(100,116,139,0.25)';
+                    ctx.lineWidth = 1;
+                    const gridX = 8, gridY = 8;
+                    for (let i = 0; i <= gridX; i++) {
+                        const gx = padL + innerW * i / gridX;
+                        ctx.beginPath(); ctx.moveTo(gx, padT); ctx.lineTo(gx, padT + innerH); ctx.stroke();
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const gy = padT + innerH * j / gridY;
+                        ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(padL + innerW, gy); ctx.stroke();
+                    }
+
+                    // 先不画最终边框（放到曲线后重画，避免被覆盖）
+
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '12px Segoe UI, Microsoft YaHei, Arial';
+                    for (let i = 0; i <= gridX; i++) {
+                        const xv = xMin + (xMax - xMin) * i / gridX;
+                        const gx = padL + innerW * i / gridX;
+                        ctx.fillText(xv.toFixed(2), gx - 14, padT + innerH + 22);
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const yv = yMax - (yMax - yMin) * j / gridY;
+                        const gy = padT + innerH * j / gridY;
+                        ctx.fillText(yv.toFixed(2), 10, gy + 4);
+                    }
+
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = '13px Segoe UI, Microsoft YaHei, Arial';
+                    ctx.fillText('频率偏移 (GHz)', padL + innerW / 2 - 60, H - 12);
+                    ctx.save();
+                    ctx.translate(18, padT + innerH / 2 + 50);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText(opts?.yLabel ?? '相对功率 (dB)', 0, 0);
+                    ctx.restore();
+
+                    // 曲线仅允许绘制在绘图区内，防止越界到边框/标签区域
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(padL, padT, innerW, innerH);
+                    ctx.clip();
+
+                    const color = opts?.color ?? '#2563eb';
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 2.2;
+                    ctx.beginPath();
+                    for (let i = 0; i < x.length; i++) {
+                        const px = padL + innerW * (x[i] - xMin) / (xMax - xMin);
+                        const py = padT + innerH * (1 - (y[i] - yMin) / (yMax - yMin));
+                        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+
+                    ctx.restore();
+
+                    // 重画坐标轴边框，确保在曲线之上
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(padL, padT);
+                    ctx.lineTo(padL, padT + innerH);
+                    ctx.lineTo(padL + innerW, padT + innerH);
+                    ctx.stroke();
+
+                    if (opts?.title) {
+                        ctx.fillStyle = '#1e293b';
+                        ctx.font = 'bold 16px Segoe UI, Microsoft YaHei, Arial';
+                        ctx.fillText(opts.title, padL, 18);
+                    }
+
+                    // 返回坐标变换，供局部放大/坐标映射使用
+                    return { padL, padR, padT, padB, innerW, innerH, xMin, xMax, yMin, yMax, W, H };
+                }
+
+                // ----------------- MZM 模型（复刻 demo_1_1.py 核心） -----------------
+                const state = {
+                    // constants
+                    P0: 10e-3,
+                    E0: Math.sqrt(2 * 10e-3),
+
+                    // params
+                    mode: 'DSB',
+                    V_pi: 5.0,
+                    V_pi_dc: 5.0,
+                    fmGHz: 1.0,
+                    m: 0.628,        // modulation index (push-pull default)
+
+                    V_bias1: 1.25,
+                    V_bias2: -1.25,
+                    theta1: 0.0,
+                    theta2: Math.PI,
+
+                    deltaFGHz: 50,
+                    samplePoints: 4096,
+                    tNs: 50,
+
+                    yMinDb: -60,
+                    yUnit: 'db',
+                    manualCalc: false,
+                    paramSource: 'scan',
+                    forceScan: false,
+
+                    autoSave: false,
+
+                    // local zoom view (data coords). null means default view
+                    view: null,
+
+                    // last plot transform for pixel<->data mapping
+                    lastTransform: null,
+
+                    last: null,
+
+                    // ROI selection
+                    roiEnabled: false,
+                    roi: null,
+                    roiDragging: false,
+                    roiStart: null,
+                };
+
+                function VmFromM(m) {
+                    // python: phase term uses (pi * Vm / V_pi) * sin(...)
+                    // so modulation index in phase is (pi*Vm/V_pi); here define m = pi*Vm/V_pi => Vm = m*V_pi/pi
+                    return m * state.V_pi / Math.PI;
+                }
+
+                function calcSpectrum() {
+                    const n = state.samplePoints;
+                    const tDuration = state.tNs * 1e-9;
+                    const dt = tDuration / n;
+
+                    const fm = state.fmGHz * 1e9;
+                    const wm1 = 2 * Math.PI * fm;
+                    const wm2 = 2 * Math.PI * fm;
+
+                    const Vm = VmFromM(state.m);
+                    const Vm1 = Vm;
+                    const Vm2 = Vm;
+
+                    const re = new Array(n);
+                    const im = new Array(n);
+
+                    const E_in = state.E0;
+                    const pi = Math.PI;
+
+                    for (let k = 0; k < n; k++) {
+                        const t = k * dt;
+                        const phi1 = (pi * state.V_bias1 / state.V_pi_dc) + (pi * Vm1 / state.V_pi) * Math.sin(wm1 * t + state.theta1);
+                        const phi2 = (pi * state.V_bias2 / state.V_pi_dc) + (pi * Vm2 / state.V_pi) * Math.sin(wm2 * t + state.theta2);
+
+                        // E_out = 0.5 * E_in * (exp(j phi1) + exp(j phi2))
+                        const c1 = Math.cos(phi1), s1 = Math.sin(phi1);
+                        const c2 = Math.cos(phi2), s2 = Math.sin(phi2);
+                        const er = 0.5 * E_in * (c1 + c2);
+                        const ei = 0.5 * E_in * (s1 + s2);
+                        re[k] = er;
+                        im[k] = ei;
+                    }
+
+                    fft(re, im);
+
+                    const mag2 = new Array(n);
+                    for (let k = 0; k < n; k++) mag2[k] = re[k] * re[k] + im[k] * im[k];
+                    const mag2Shift = fftshift(mag2);
+
+                    // 将谱线功率归一化到输入功率 P0（用于 dBm 显示）
+                    let total = 0;
+                    for (let i = 0; i < n; i++) total += mag2Shift[i];
+                    if (!(total > 0)) total = 1e-18;
+
+                    // freqs centered, in GHz
+                    const fGHz = new Array(n);
+                    for (let k = 0; k < n; k++) {
+                        const f = (k - n / 2) / (n * dt); // Hz
+                        fGHz[k] = f / 1e9;
+                    }
+
+                    // apply deltaF window
+                    const xs = [], pW = [];
+                    const delta = state.deltaFGHz;
+                    for (let i = 0; i < n; i++) {
+                        const f = fGHz[i];
+                        if (f > -delta && f < delta) {
+                            xs.push(f);
+                            const binPW = (mag2Shift[i] / total) * state.P0;
+                            pW.push(binPW);
+                        }
+                    }
+
+                    // convert
+                    const pMax = Math.max(...pW);
+                    const yDb = pW.map(v => 10 * Math.log10(Math.max(v, 1e-18) / Math.max(pMax, 1e-18)));
+                    const yDbm = pW.map(v => 10 * Math.log10(Math.max(v, 1e-18) / 1e-3));
+
+                    state.last = { fGHz: xs, p: pW, yDb, yDbm };
+                    return state.last;
+                }
+
+                // --- 扫描优化（复刻 demo_1_1.py 的评分逻辑） ---
+                function evaluateCarrierPower(result, fmGHz) {
+                    const f = result.fGHz;
+                    const p = result.p;
+                    let best = 0;
+                    for (let i = 0; i < f.length; i++) {
+                        if (f[i] > -0.5 && f[i] < 0.5) {
+                            best = Math.max(best, p[i]);
+                        }
+                    }
+                    if (best === 0) {
+                        let idx = 0;
+                        let bestErr = Infinity;
+                        for (let i = 0; i < f.length; i++) {
+                            const err = Math.abs(f[i]);
+                            if (err < bestErr) { bestErr = err; idx = i; }
+                        }
+                        best = p[idx];
+                    }
+                    return best;
+                }
+
+                function evaluateSidebandPowers(result, fmGHz) {
+                    const f = result.fGHz;
+                    const p = result.p;
+                    const tol = 0.2; // 200 MHz in GHz
+
+                    function peakIn(a, b) {
+                        let best = 0;
+                        for (let i = 0; i < f.length; i++) {
+                            if (f[i] > a && f[i] < b) best = Math.max(best, p[i]);
+                        }
+                        return best;
+                    }
+
+                    const pPlus = peakIn(fmGHz - tol, fmGHz + tol) || 1e-15;
+                    const pMinus = peakIn(-fmGHz - tol, -fmGHz + tol) || 1e-15;
+                    return { pPlus, pMinus };
+                }
+
+                function applyModeTheory(keepM = true) {
+                    const mKeep = state.m;
+
+                    if (state.mode === 'DSB') {
+                        state.V_bias1 = state.V_pi_dc / 4;
+                        state.V_bias2 = -state.V_pi_dc / 4;
+                        state.theta1 = 0.0;
+                        state.theta2 = Math.PI;
+                    } else if (state.mode === 'SSB') {
+                        state.V_bias1 = state.V_pi_dc / 4;
+                        state.V_bias2 = -state.V_pi_dc / 4;
+                        state.theta1 = 0.0;
+                        state.theta2 = Math.PI / 2;
+                    } else {
+                        state.V_bias1 = state.V_pi_dc / 2;
+                        state.V_bias2 = -state.V_pi_dc / 2;
+                        state.theta1 = 0.0;
+                        state.theta2 = Math.PI;
+                    }
+
+                    if (keepM) state.m = mKeep;
+
+                    syncUiFromState();
+                }
+
+                function hasCache() {
+                    return !!localStorage.getItem(cacheKey());
+                }
+
+                function setMode(mode) {
+                    state.mode = mode;
+
+                    // 参数来源：theory 只套理论；scan 则优先缓存，不行就扫描
+                    if (state.paramSource === 'theory') {
+                        applyModeTheory(true);
+                        setStatus(`已切换模式：${mode}（理论参数，保留 m）`);
+                    } else {
+                        if (!state.forceScan && hasCache()) {
+                            loadCache();
+                            setStatus(`已切换模式：${mode}（已加载缓存）`);
+                        } else {
+                            setStatus(`模式 ${mode}：扫描优化中...`);
+                            scanOptimize();
+                            // 扫描后自动写缓存，行为与 MATLAB 版更接近
+                            try { saveCache(false); } catch { }
+                            setStatus(`模式 ${mode}：扫描优化完成`);
+                        }
+                    }
+
+                    syncUiFromState();
+
+                    if (!state.manualCalc) {
+                        try {
+                            calcSpectrum();
+                            drawFromLast(`MZM 输出光谱（${state.mode}）`);
+                            if (state.autoSave) exportFull();
+                        } catch (e) {
+                            console.error(e);
+                            setStatus('计算失败：' + e.message);
+                        }
+                    }
+                }
+
+                function resetParams() {
+                    // 复刻“重置参数”：回到初始默认值（但保留 paramSource / 手动计算等开关）
+                    const keep = {
+                        paramSource: state.paramSource,
+                        manualCalc: state.manualCalc,
+                        yMinDb: state.yMinDb,
+                        autoSave: state.autoSave,
+                        forceScan: state.forceScan,
+                        roiEnabled: state.roiEnabled,
+                    };
+                    state.mode = 'DSB';
+                    state.V_pi = 5.0;
+                    state.V_pi_dc = 5.0;
+                    state.fmGHz = 1.0;
+                    state.m = 0.628;
+                    state.V_bias1 = 1.25;
+                    state.V_bias2 = -1.25;
+                    state.theta1 = 0.0;
+                    state.theta2 = Math.PI;
+                    state.deltaFGHz = 50;
+                    state.samplePoints = 4096;
+                    state.tNs = 50;
+                    state.P0 = 10e-3;
+                    state.E0 = Math.sqrt(2 * state.P0);
+                    state.roi = null;
+                    state.roiDragging = false;
+                    state.roiStart = null;
+
+                    state.paramSource = keep.paramSource;
+                    state.manualCalc = keep.manualCalc;
+                    state.yMinDb = keep.yMinDb;
+                    state.autoSave = keep.autoSave;
+                    state.forceScan = keep.forceScan;
+                    state.roiEnabled = keep.roiEnabled;
+
+                    syncUiFromState();
+                    setStatus('参数已重置');
+
+                    if (!state.manualCalc) {
+                        try {
+                            if (state.paramSource === 'theory') applyModeTheory(true);
+                            calcSpectrum();
+                            drawFromLast('MZM 输出光谱（相对峰值）');
+                            if (state.autoSave) exportFull();
+                        } catch (e) {
+                            console.error(e);
+                            setStatus('计算失败：' + e.message);
+                        }
+                    } else {
+                        drawFromLast('请点击“计算并更新图谱”');
+                    }
+                }
+
+                function scanOptimize() {
+                    const orig = { ...state };
+                    try {
+                        applyModeTheory(true);
+                        const base = { ...state };
+
+                        if (state.mode === 'CS') {
+                            const vCenter = base.V_bias1;
+                            const vMin = Math.max(0, vCenter * 0.7);
+                            const vMax = Math.min(state.V_pi_dc, vCenter * 1.3);
+
+                            let bestV = vCenter;
+                            let bestScore = Infinity;
+                            for (let i = 0; i < 21; i++) {
+                                const v = vMin + (vMax - vMin) * i / 20;
+                                state.V_bias1 = v;
+                                state.V_bias2 = -v;
+                                state.theta1 = base.theta1;
+                                state.theta2 = base.theta2;
+
+                                const res = calcSpectrum();
+                                const carrier = evaluateCarrierPower(res, state.fmGHz);
+                                if (carrier < bestScore) { bestScore = carrier; bestV = v; }
+                            }
+                            state.V_bias1 = bestV;
+                            state.V_bias2 = -bestV;
+                        }
+
+                        if (state.mode === 'DSB') {
+                            const baseRes = calcSpectrum();
+                            const carrier0 = evaluateCarrierPower(baseRes, state.fmGHz);
+                            const sb0 = evaluateSidebandPowers(baseRes, state.fmGHz);
+                            const pSum0 = sb0.pPlus + sb0.pMinus;
+                            const r0 = carrier0 / (pSum0 + 1e-15);
+
+                            const vCenter = base.V_bias1;
+                            const span = vCenter * 0.3;
+                            let bestV = vCenter;
+                            let bestScore = -Infinity;
+
+                            for (let i = 0; i < 25; i++) {
+                                const v = (vCenter - span) + (2 * span) * i / 24;
+                                state.V_bias1 = v;
+                                state.V_bias2 = -v;
+                                state.theta1 = base.theta1;
+                                state.theta2 = base.theta2;
+
+                                const res = calcSpectrum();
+                                const carrier = evaluateCarrierPower(res, state.fmGHz);
+                                const sb = evaluateSidebandPowers(res, state.fmGHz);
+                                const pSum = sb.pPlus + sb.pMinus;
+                                if (pSum <= 1e-18) continue;
+
+                                const r = carrier / (pSum + 1e-15);
+                                const symDb = Math.abs(10 * Math.log10((sb.pPlus + 1e-18) / (sb.pMinus + 1e-18)));
+                                const gain = pSum / (pSum0 + 1e-15);
+                                const penaltyRatio = (r - r0) * (r - r0);
+                                const penaltySym = Math.max(0, symDb - 1);
+                                const score = gain - 0.3 * penaltyRatio - 0.2 * penaltySym;
+
+                                if (score > bestScore) { bestScore = score; bestV = v; }
+                            }
+
+                            state.V_bias1 = bestV;
+                            state.V_bias2 = -bestV;
+                        }
+
+                        if (state.mode === 'SSB') {
+                            const thCenter = base.theta2;
+                            const span = Math.abs(thCenter) * 0.3;
+                            const thMin = thCenter - span;
+                            const thMax = thCenter + span;
+                            let bestTh = thCenter;
+                            let bestScore = -Infinity;
+
+                            for (let i = 0; i < 41; i++) {
+                                const th = thMin + (thMax - thMin) * i / 40;
+                                state.V_bias1 = base.V_bias1;
+                                state.V_bias2 = base.V_bias2;
+                                state.theta1 = base.theta1;
+                                state.theta2 = th;
+
+                                const res = calcSpectrum();
+                                const sb = evaluateSidebandPowers(res, state.fmGHz);
+                                const ssr = sb.pPlus / (sb.pMinus + 1e-20);
+                                if (ssr > bestScore) { bestScore = ssr; bestTh = th; }
+                            }
+
+                            state.theta2 = bestTh;
+                        }
+
+                        syncUiFromState();
+                        return { ...state };
+                    } finally {
+                        // no restore (we want optimized), but keep invariants
+                    }
+                }
+
+                // ----------------- UI 与交互 -----------------
+                const el = {
+                    // mode buttons
+                    btnModeDSB: document.getElementById('btnModeDSB'),
+                    btnModeSSB: document.getElementById('btnModeSSB'),
+                    btnModeCS: document.getElementById('btnModeCS'),
+                    btnResetParams: document.getElementById('btnResetParams'),
+                    forceScan: document.getElementById('forceScan'),
+
+                    // param source
+                    srcScan: document.getElementById('srcScan'),
+                    srcTheory: document.getElementById('srcTheory'),
+
+                    m: document.getElementById('m'),
+                    fmGHz: document.getElementById('fmGHz'),
+                    vpi: document.getElementById('vpi'),
+                    vpiDc: document.getElementById('vpiDc'),
+                    p0mW: document.getElementById('p0mW'),
+                    vbias1: document.getElementById('vbias1'),
+                    vbias2: document.getElementById('vbias2'),
+                    theta1: document.getElementById('theta1'),
+                    theta2: document.getElementById('theta2'),
+                    deltaFGHz: document.getElementById('deltaFGHz'),
+                    samplePoints: document.getElementById('samplePoints'),
+                    tNs: document.getElementById('tNs'),
+                    btnCalc: document.getElementById('btnCalc'),
+                    btnExport: document.getElementById('btnExport'),
+                    btnExportRoi: document.getElementById('btnExportRoi'),
+                    roiEnable: document.getElementById('roiEnable'),
+
+                    yMinDb: document.getElementById('yMinDb'),
+                    yUnit: document.getElementById('yUnit'),
+                    yMinLabel: document.getElementById('yMinLabel'),
+                    displayModeNote: document.getElementById('displayModeNote'),
+                    manualCalc: document.getElementById('manualCalc'),
+                    autoSave: document.getElementById('autoSave'),
+                    btnSaveFig: document.getElementById('btnSaveFig'),
+                    status: document.getElementById('status'),
+                    brief: document.getElementById('brief'),
+                    canvas: document.getElementById('plot')
+                };
+
+                function _fmt2(v) {
+                    return Number.isFinite(v) ? v.toFixed(2) : '';
+                }
+                function _fmtInt(v) {
+                    return Number.isFinite(v) ? String(Math.trunc(v)) : '';
+                }
+                function _installPrettyNumberInput(input, digits, isInt) {
+                    if (!input || input.dataset.prettyInstalled === '1') return;
+                    input.dataset.prettyInstalled = '1';
+                    // 初始化 full
+                    if (typeof input.dataset.full !== 'string') input.dataset.full = input.value;
+
+                    input.addEventListener('focus', () => {
+                        if (typeof input.dataset.full === 'string') input.value = input.dataset.full;
+                    });
+                    input.addEventListener('blur', () => {
+                        const v = Number(input.dataset.full);
+                        if (!Number.isFinite(v)) return;
+                        input.value = isInt ? _fmtInt(v) : v.toFixed(digits);
+                    });
+                    input.addEventListener('change', () => {
+                        const v = Number(input.value);
+                        if (!Number.isFinite(v)) return;
+                        input.dataset.full = String(v);
+                        // change 后立即美化显示
+                        input.value = isInt ? _fmtInt(v) : v.toFixed(digits);
+                    });
+                }
+
+                function setStatus(s) { el.status.textContent = s; }
+
+                function syncStateFromUi() {
+                    state.m = Math.max(0, Number(el.m.value || '0'));
+                    state.fmGHz = Math.max(0.01, Number(el.fmGHz.value || '1'));
+                    state.V_pi = Math.max(0.1, Number(el.vpi.value || '5'));
+                    state.V_pi_dc = Math.max(0.1, Number(el.vpiDc.value || '5'));
+                    const p0mW = Math.max(0, Number(el.p0mW?.value || '10'));
+                    state.P0 = p0mW * 1e-3;
+                    state.E0 = Math.sqrt(2 * state.P0);
+                    state.V_bias1 = Number(el.vbias1.value || '0');
+                    state.V_bias2 = Number(el.vbias2.value || '0');
+                    state.theta1 = Number(el.theta1.value || '0');
+                    state.theta2 = Number(el.theta2.value || '0');
+                    state.deltaFGHz = Math.max(0.1, Number(el.deltaFGHz.value || '50'));
+                    state.samplePoints = Math.max(256, parseInt(el.samplePoints.value || '4096', 10));
+                    state.tNs = Math.max(1, Number(el.tNs.value || '50'));
+
+                    state.yMinDb = Number(el.yMinDb?.value || '-60');
+                    state.yUnit = String(el.yUnit?.value || 'db');
+                    state.manualCalc = !!el.manualCalc?.checked;
+                    state.autoSave = !!el.autoSave?.checked;
+                    state.forceScan = !!el.forceScan?.checked;
+                    state.paramSource = el.srcTheory?.checked ? 'theory' : 'scan';
+                }
+
+                function syncUiFromState() {
+                    // radios/checkboxes
+                    if (el.srcScan && el.srcTheory) {
+                        el.srcScan.checked = (state.paramSource === 'scan');
+                        el.srcTheory.checked = (state.paramSource === 'theory');
+                    }
+                    if (el.forceScan) el.forceScan.checked = !!state.forceScan;
+                    if (el.manualCalc) el.manualCalc.checked = !!state.manualCalc;
+                    if (el.autoSave) el.autoSave.checked = !!state.autoSave;
+                    if (el.roiEnable) el.roiEnable.checked = !!state.roiEnabled;
+
+                    if (el.yUnit) el.yUnit.value = state.yUnit || 'db';
+                    if (el.displayModeNote) {
+                        el.displayModeNote.textContent = (state.yUnit === 'dbm')
+                            ? '显示模式：绝对功率 (dBm)'
+                            : '显示模式：相对峰值功率 (dB)';
+                    }
+                    if (el.yMinLabel) {
+                        el.yMinLabel.textContent = (state.yUnit === 'dbm')
+                            ? '纵轴最小值 (dBm)'
+                            : '纵轴最小值 (dB)';
+                    }
+
+                    // 输入框：显示两位小数，但允许聚焦时编辑全精度
+                    const pairs = [
+                        [el.m, state.m, 2, false],
+                        [el.fmGHz, state.fmGHz, 2, false],
+                        [el.vpi, state.V_pi, 2, false],
+                        [el.vpiDc, state.V_pi_dc, 2, false],
+                        [el.vbias1, state.V_bias1, 2, false],
+                        [el.vbias2, state.V_bias2, 2, false],
+                        [el.theta1, state.theta1, 2, false],
+                        [el.theta2, state.theta2, 2, false],
+                        [el.deltaFGHz, state.deltaFGHz, 2, false],
+                        [el.yMinDb, state.yMinDb, 0, true],
+                        [el.samplePoints, state.samplePoints, 0, true],
+                        [el.tNs, state.tNs, 0, true],
+                    ];
+
+                    for (const [inp, val, digits, isInt] of pairs) {
+                        _installPrettyNumberInput(inp, digits || 2, !!isInt);
+                        const v = Number(val);
+                        if (Number.isFinite(v)) {
+                            inp.dataset.full = String(v);
+                            if (document.activeElement !== inp) {
+                                inp.value = isInt ? _fmtInt(v) : v.toFixed(digits || 2);
+                            }
+                        }
+                    }
+
+                    const Vm = VmFromM(state.m);
+                    // brief 在右侧工具栏可能不存在（被简化），容错
+                    if (el.brief) {
+                        el.brief.textContent = `模式=${state.mode}  m=${state.m.toFixed(2)} (Vm≈${Vm.toFixed(2)}V)  f=${state.fmGHz.toFixed(2)}GHz  P0=${(state.P0 * 1e3).toFixed(1)}mW`;
+                    }
+                }
+
+                function drawFromLast(title) {
+                    const last = state.last;
+                    if (!last) {
+                        const xMin0 = -state.deltaFGHz;
+                        const xMax0 = state.deltaFGHz;
+                        const yMin0 = Number.isFinite(state.yMinDb) ? state.yMinDb : -60;
+                        const yMax0 = (state.yUnit === 'dbm') ? 10 : 5;
+                        const view = state.view ?? { xMin: xMin0, xMax: xMax0, yMin: yMin0, yMax: yMax0 };
+                        state.lastTransform = plotLine(el.canvas, [view.xMin, view.xMax], [view.yMin, view.yMax], {
+                            title: '请点击“计算光谱”',
+                            xMin: view.xMin,
+                            xMax: view.xMax,
+                            yMin: view.yMin,
+                            yMax: view.yMax,
+                            yLabel: (state.yUnit === 'dbm') ? '功率 (dBm)' : '相对功率 (dB)',
+                            color: '#94a3b8'
+                        });
+                        return;
+                    }
+
+                    const xMin0 = -state.deltaFGHz;
+                    const xMax0 = state.deltaFGHz;
+                    const yMin0 = Number.isFinite(state.yMinDb) ? state.yMinDb : -60;
+                    const yMax0 = (state.yUnit === 'dbm') ? 10 : 5;
+                    const view = state.view ?? { xMin: xMin0, xMax: xMax0, yMin: yMin0, yMax: yMax0 };
+
+                    const unit = state.yUnit || 'db';
+                    const y = (unit === 'dbm') ? last.yDbm : last.yDb;
+                    const yLabel = (unit === 'dbm') ? '功率 (dBm)' : '相对功率 (dB)';
+                    const autoTitle = (unit === 'dbm') ? 'MZM 输出光谱（绝对功率）' : 'MZM 输出光谱（相对峰值）';
+
+                    state.lastTransform = plotLine(el.canvas, last.fGHz, y, {
+                        title: title || autoTitle,
+                        xMin: view.xMin,
+                        xMax: view.xMax,
+                        yMin: view.yMin,
+                        yMax: view.yMax,
+                        yLabel,
+                        color: '#2563eb'
+                    });
+
+                    // overlay ROI if exists
+                    if (state.roi) {
+                        const ctx = el.canvas.getContext('2d');
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(220,38,38,0.9)';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([6, 4]);
+                        const r = state.roi;
+                        ctx.strokeRect(r.x, r.y, r.w, r.h);
+                        ctx.restore();
+                    }
+                }
+
+                function canvasToData(pos) {
+                    const tr = state.lastTransform;
+                    if (!tr) return null;
+                    const { padL, padT, innerW, innerH, xMin, xMax, yMin, yMax } = tr;
+                    const px = pos.x;
+                    const py = pos.y;
+                    const x = xMin + ((px - padL) / innerW) * (xMax - xMin);
+                    const y = yMax - ((py - padT) / innerH) * (yMax - yMin);
+                    return { x, y };
+                }
+
+                function clampView(view) {
+                    if (!view) return null;
+                    let { xMin, xMax, yMin, yMax } = view;
+                    if (!Number.isFinite(xMin) || !Number.isFinite(xMax) || !Number.isFinite(yMin) || !Number.isFinite(yMax)) return null;
+                    if (xMax - xMin < 1e-9) { xMax = xMin + 1; }
+                    if (yMax - yMin < 1e-9) { yMax = yMin + 1; }
+                    if (xMin > xMax) [xMin, xMax] = [xMax, xMin];
+                    if (yMin > yMax) [yMin, yMax] = [yMax, yMin];
+                    return { xMin, xMax, yMin, yMax };
+                }
+
+                function resetZoom() {
+                    state.view = null;
+                    state.roi = null;
+                    drawFromLast();
+                    setStatus('缩放已重置');
+                }
+
+                function zoomToRoi() {
+                    if (!state.roi || state.roi.w < 6 || state.roi.h < 6) {
+                        setStatus('请先在图上拖拽选择一个矩形区域');
+                        return;
+                    }
+                    if (!state.lastTransform) {
+                        setStatus('请先计算并绘图后再缩放');
+                        return;
+                    }
+
+                    const r = state.roi;
+                    const p1 = canvasToData({ x: r.x, y: r.y });
+                    const p2 = canvasToData({ x: r.x + r.w, y: r.y + r.h });
+                    if (!p1 || !p2) return;
+
+                    // 防止选区越界：限制在绘图区内
+                    const view = clampView({ xMin: p1.x, xMax: p2.x, yMin: p2.y, yMax: p1.y });
+                    if (!view) return;
+
+                    state.view = view;
+                    state.roi = null;
+                    drawFromLast('局部放大视图');
+                    setStatus('已放大到选区（双击图像或点“重置缩放”恢复）');
+                }
+
+                // ----------------- 缓存（localStorage） -----------------
+                function cacheKey() { return `demo1_best_params_${state.mode}`; }
+                function saveCache(showStatus = true) {
+                    syncStateFromUi();
+                    const data = {
+                        mode: state.mode,
+                        m: state.m,
+                        fmGHz: state.fmGHz,
+                        V_pi: state.V_pi,
+                        V_pi_dc: state.V_pi_dc,
+                        P0: state.P0,
+                        V_bias1: state.V_bias1,
+                        V_bias2: state.V_bias2,
+                        theta1: state.theta1,
+                        theta2: state.theta2,
+                    };
+                    localStorage.setItem(cacheKey(), JSON.stringify(data));
+                    if (showStatus) setStatus('已保存缓存');
+                }
+                function loadCache() {
+                    const raw = localStorage.getItem(cacheKey());
+                    if (!raw) { setStatus('没有找到缓存'); return; }
+                    let data;
+                    try { data = JSON.parse(raw); } catch { setStatus('缓存解析失败'); return; }
+
+                    state.m = Number(data.m ?? state.m);
+                    state.fmGHz = Number(data.fmGHz ?? state.fmGHz);
+                    state.V_pi = Number(data.V_pi ?? state.V_pi);
+                    state.V_pi_dc = Number(data.V_pi_dc ?? state.V_pi_dc);
+                    state.P0 = Number(data.P0 ?? state.P0);
+                    state.E0 = Math.sqrt(2 * state.P0);
+                    state.V_bias1 = Number(data.V_bias1 ?? state.V_bias1);
+                    state.V_bias2 = Number(data.V_bias2 ?? state.V_bias2);
+                    state.theta1 = Number(data.theta1 ?? state.theta1);
+                    state.theta2 = Number(data.theta2 ?? state.theta2);
+
+                    syncUiFromState();
+                    setStatus('已加载缓存');
+                }
+
+                // ----------------- ROI 选择与导出 -----------------
+                function canvasPos(evt) {
+                    const rect = el.canvas.getBoundingClientRect();
+                    const x = (evt.clientX - rect.left) * (el.canvas.width / rect.width);
+                    const y = (evt.clientY - rect.top) * (el.canvas.height / rect.height);
+                    return { x, y };
+                }
+
+                el.canvas.addEventListener('mousedown', (evt) => {
+                    if (!state.roiEnabled) return;
+                    state.roiDragging = true;
+                    state.roiStart = canvasPos(evt);
+                    state.roi = { x: state.roiStart.x, y: state.roiStart.y, w: 0, h: 0 };
+                    drawFromLast();
+                });
+
+                el.canvas.addEventListener('mousemove', (evt) => {
+                    if (!state.roiDragging) return;
+                    const cur = canvasPos(evt);
+                    const x0 = state.roiStart.x, y0 = state.roiStart.y;
+                    const x1 = cur.x, y1 = cur.y;
+                    state.roi = { x: Math.min(x0, x1), y: Math.min(y0, y1), w: Math.abs(x1 - x0), h: Math.abs(y1 - y0) };
+                    drawFromLast();
+                });
+
+                window.addEventListener('mouseup', () => {
+                    if (!state.roiDragging) return;
+                    state.roiDragging = false;
+                    drawFromLast();
+                });
+
+                // 双击：重置缩放
+                el.canvas.addEventListener('dblclick', (evt) => {
+                    evt.preventDefault();
+                    resetZoom();
+                });
+
+                // Ctrl+滚轮：局部缩放（以鼠标位置为中心）
+                el.canvas.addEventListener('wheel', (evt) => {
+                    if (!evt.ctrlKey) return; // 避免影响页面正常滚动
+                    evt.preventDefault();
+                    if (!state.lastTransform) return;
+                    const cur = canvasPos(evt);
+                    const center = canvasToData(cur);
+                    if (!center) return;
+
+                    const base = state.view ?? {
+                        xMin: -state.deltaFGHz,
+                        xMax: state.deltaFGHz,
+                        yMin: Number.isFinite(state.yMinDb) ? state.yMinDb : -60,
+                        yMax: 5,
+                    };
+
+                    const dir = Math.sign(evt.deltaY);
+                    const zoom = (dir > 0) ? 1.12 : 0.89; // deltaY>0 代表缩小
+
+                    const xMin = center.x + (base.xMin - center.x) * zoom;
+                    const xMax = center.x + (base.xMax - center.x) * zoom;
+                    const yMin = center.y + (base.yMin - center.y) * zoom;
+                    const yMax = center.y + (base.yMax - center.y) * zoom;
+
+                    state.view = clampView({ xMin, xMax, yMin, yMax });
+                    drawFromLast('局部缩放视图');
+                }, { passive: false });
+
+                function exportFull() {
+                    const url = el.canvas.toDataURL('image/png');
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'demo_1_1_spectrum.png';
+                    a.click();
+                }
+
+                function exportRoi() {
+                    if (!state.roi || state.roi.w < 5 || state.roi.h < 5) {
+                        setStatus('请先在图上拖拽选择一个矩形区域');
+                        return;
+                    }
+                    const r = state.roi;
+                    const src = el.canvas.getContext('2d').getImageData(r.x, r.y, r.w, r.h);
+                    const off = document.createElement('canvas');
+                    off.width = Math.floor(r.w);
+                    off.height = Math.floor(r.h);
+                    off.getContext('2d').putImageData(src, 0, 0);
+
+                    const url = off.toDataURL('image/png');
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'demo_1_1_roi.png';
+                    a.click();
+                }
+
+                // ----------------- 事件绑定 -----------------
+                let _autoTimer = null;
+                function requestAutoRecalc() {
+                    if (state.manualCalc) return;
+                    clearTimeout(_autoTimer);
+                    _autoTimer = setTimeout(() => {
+                        try {
+                            syncStateFromUi();
+                            syncUiFromState();
+                            calcSpectrum();
+                            drawFromLast(`MZM 输出光谱（${state.mode}）`);
+                            if (state.autoSave) exportFull();
+                            setStatus('完成');
+                        } catch (e) {
+                            console.error(e);
+                            setStatus('计算失败：' + e.message);
+                        }
+                    }, 180);
+                }
+
+                for (const id of ['m', 'fmGHz', 'vpi', 'vpiDc', 'p0mW', 'vbias1', 'vbias2', 'theta1', 'theta2', 'deltaFGHz', 'samplePoints', 'tNs', 'yMinDb', 'yUnit']) {
+                    const node = document.getElementById(id);
+                    if (!node) continue;
+                    node.addEventListener('change', () => {
+                        syncStateFromUi();
+                        syncUiFromState();
+                        if (id === 'yUnit') state.view = null;
+                        requestAutoRecalc();
+                    });
+                }
+                for (const id of ['forceScan', 'manualCalc', 'autoSave', 'srcScan', 'srcTheory']) {
+                    const node = document.getElementById(id);
+                    if (!node) continue;
+                    node.addEventListener('change', () => { syncStateFromUi(); syncUiFromState(); setStatus('就绪'); requestAutoRecalc(); });
+                }
+
+                el.btnModeDSB.addEventListener('click', () => { syncStateFromUi(); setMode('DSB'); });
+                el.btnModeSSB.addEventListener('click', () => { syncStateFromUi(); setMode('SSB'); });
+                el.btnModeCS.addEventListener('click', () => { syncStateFromUi(); setMode('CS'); });
+                el.btnResetParams.addEventListener('click', () => { syncStateFromUi(); resetParams(); });
+
+                el.btnCalc.addEventListener('click', () => {
+                    setStatus('计算中...');
+                    try {
+                        syncStateFromUi();
+                        syncUiFromState();
+                        if (state.paramSource === 'theory') {
+                            applyModeTheory(true);
+                        } else {
+                            // scan 模式：若无缓存且没强制扫描，则先提示；这里不强制自动扫，避免误触频繁扫描
+                            if (!state.forceScan && !hasCache()) {
+                                setStatus('未找到缓存：可点击 DSB/SSB/CS 触发扫描，或勾选强制扫描');
+                            }
+                        }
+                        calcSpectrum();
+                        drawFromLast(`MZM 输出光谱（${state.mode}）`);
+                        if (state.autoSave) exportFull();
+                        setStatus('完成');
+                    } catch (e) {
+                        console.error(e);
+                        setStatus('计算失败：' + e.message);
+                    }
+                });
+
+                el.btnSaveFig.addEventListener('click', exportFull);
+                el.btnExport.addEventListener('click', exportFull);
+                el.btnExportRoi.addEventListener('click', exportRoi);
+                document.getElementById('btnZoomToRoi').addEventListener('click', zoomToRoi);
+                document.getElementById('btnResetZoom').addEventListener('click', resetZoom);
+                el.roiEnable.addEventListener('change', () => {
+                    state.roiEnabled = !!el.roiEnable.checked;
+                    if (!state.roiEnabled) {
+                        state.roi = null;
+                        drawFromLast();
+                    }
+                });
+
+                // init
+                syncStateFromUi();
+                syncUiFromState();
+                drawFromLast();
+            </script>
+        </body>
+
+        </html>
+    </template>
+    <template id="tpl-demo2">
+        <!doctype html>
+        <html lang="zh-CN">
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>级联相位调制器多载波</title>
+            <style>
+                :root {
+                    --bg: #f8f9fa;
+                    --card: #ffffff;
+                    --text: #1e293b;
+                    --muted: #64748b;
+                    --border: #e2e8f0;
+                    --primary: #2c5282;
+                    --secondary: #3182ce;
+                }
+
+                * {
+                    box-sizing: border-box
+                }
+
+                body {
+                    margin: 0;
+                    font-family: Segoe UI, Microsoft YaHei, Arial, sans-serif;
+                    background: var(--bg);
+                    color: var(--text)
+                }
+
+                header {
+                    padding: 14px 18px;
+                    border-bottom: 1px solid var(--border);
+                    background: var(--card)
+                }
+
+                header h1 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 700
+                }
+
+                .wrap {
+                    display: flex;
+                    gap: 14px;
+                    padding: 14px;
+                    align-items: stretch
+                }
+
+                .panel {
+                    flex: 1;
+                    min-width: 360px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 12px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px
+                }
+
+                .panel h2 {
+                    margin: 0;
+                    font-size: 14px
+                }
+
+                .grid {
+                    display: grid;
+                    grid-template-columns: 1fr 120px;
+                    gap: 10px;
+                    align-items: center
+                }
+
+                label {
+                    font-size: 12px;
+                    color: var(--muted)
+                }
+
+                input,
+                select {
+                    padding: 6px 8px;
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    width: 120px
+                }
+
+                input[type="number"] {
+                    text-align: right
+                }
+
+                .btns {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 8px
+                }
+
+                .btnRow2 {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 8px
+                }
+
+                button {
+                    border: 1px solid var(--border);
+                    background: #fff;
+                    border-radius: 10px;
+                    padding: 8px 10px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    width: 100%;
+                }
+
+                button.primary {
+                    background: var(--primary);
+                    border-color: var(--primary);
+                    color: #fff
+                }
+
+                button:disabled {
+                    opacity: .6;
+                    cursor: not-allowed
+                }
+
+                .note {
+                    font-size: 12px;
+                    color: var(--muted);
+                    line-height: 1.45
+                }
+
+                .group {
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 10px;
+                    background: #fff;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px
+                }
+
+                .groupTitle {
+                    margin: 0;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: var(--text)
+                }
+
+                .check {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 12px;
+                    color: var(--muted)
+                }
+
+                .check input {
+                    width: auto;
+                    padding: 0;
+                    border: none
+                }
+
+                .stageBox {
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 10px;
+                    max-height: 360px;
+                    overflow: auto
+                }
+
+                .logArea {
+                    width: 100%;
+                    height: 160px;
+                    resize: none;
+                    padding: 8px;
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+                    font-size: 12px;
+                    background: #fbfdff;
+                    color: var(--text)
+                }
+
+                .stageTitle {
+                    font-size: 12px;
+                    font-weight: 700;
+                    margin: 0 0 8px
+                }
+
+                .right {
+                    flex: 1;
+                    min-width: 360px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px
+                }
+
+                .toolbar {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    justify-content: space-between
+                }
+
+                .toolbar select {
+                    width: auto
+                }
+
+                .status {
+                    font-size: 12px;
+                    color: var(--muted);
+                    white-space: nowrap
+                }
+
+                .progressWrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px
+                }
+
+                progress {
+                    width: 260px;
+                    height: 14px
+                }
+
+                canvas {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1200 / 700;
+                    display: block;
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    background: #fff
+                }
+            </style>
+        </head>
+
+        <body>
+            <header>
+                <h1>级联相位调制器多载波与 PSO 扫描</h1>
+            </header>
+
+            <div class="wrap">
+                <section class="panel">
+                    <h2>参数控制中心</h2>
+
+                    <div class="group">
+                        <div class="groupTitle">级联级数 (N)</div>
+                        <div class="btnRow2">
+                            <label class="check"><input id="rbN1" name="N" type="radio" checked /> N=1</label>
+                            <label class="check"><input id="rbN2" name="N" type="radio" /> N=2</label>
+                            <label class="check"><input id="rbN3" name="N" type="radio" /> N=3</label>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div class="groupTitle">快速操作</div>
+                        <div class="btnRow2">
+                            <button id="btnCalc" class="primary">计算 (Calculate)</button>
+                            <button id="btnReset">重置参数</button>
+                        </div>
+                        <label class="check"><input id="manualUpdate" type="checkbox" /> 仅点击“计算”才更新图像</label>
+                    </div>
+
+                    <div class="group">
+                        <div class="groupTitle">参数扫描功能</div>
+                        <div class="btns">
+                            <button id="btnPso" class="primary">扫描最佳平坦参数</button>
+                            <button id="btnUse">使用扫描过的参数</button>
+                        </div>
+                        <div class="btnRow2">
+                            <button id="btnSaveFile">保存参数到文件</button>
+                            <button id="btnLoadFile">从文件加载参数</button>
+                        </div>
+                        <input id="fileLoad" type="file" accept="application/json,.json" style="display:none" />
+                        <div class="grid">
+                            <label for="targetCarriers">目标平坦载波数</label>
+                            <input id="targetCarriers" type="number" min="1" step="1" value="9" />
+
+                            <label for="thresholdDb">判定阈值 ΔP (dB)</label>
+                            <input id="thresholdDb" type="number" min="0" step="0.1" value="10" />
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div class="groupTitle">各级参数设置</div>
+                        <div id="stageBox" class="stageBox"></div>
+                    </div>
+
+                    <div class="group">
+                        <div class="groupTitle">运行日志</div>
+                        <textarea id="logArea" class="logArea" readonly></textarea>
+                    </div>
+                </section>
+
+                <section class="right">
+                    <div class="toolbar">
+                        <div class="status" id="status">就绪</div>
+                        <div class="progressWrap">
+                            <progress id="prog" value="0" max="100"></progress>
+                            <div class="status" id="progText"></div>
+                        </div>
+                        <div class="progressWrap">
+                            <label class="check" style="margin:0">纵轴单位
+                                <select id="yUnit">
+                                    <option value="db" selected>dB</option>
+                                    <option value="dbm">dBm</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="status" id="metric"></div>
+                    </div>
+                    <canvas id="plot" width="1200" height="700"></canvas>
+                </section>
+            </div>
+
+            <script>
+                // ----------------- FFT（复数，原地迭代） -----------------
+                function bitReverse(n, bits) {
+                    let r = 0;
+                    for (let i = 0; i < bits; i++) {
+                        r = (r << 1) | (n & 1);
+                        n >>= 1;
+                    }
+                    return r;
+                }
+
+                function fft(re, im) {
+                    const n = re.length;
+                    const bits = Math.log2(n);
+                    if ((1 << bits) !== n) throw new Error('FFT length must be power of 2');
+
+                    // bit-reversal permutation
+                    for (let i = 0; i < n; i++) {
+                        const j = bitReverse(i, bits);
+                        if (j > i) {
+                            [re[i], re[j]] = [re[j], re[i]];
+                            [im[i], im[j]] = [im[j], im[i]];
+                        }
+                    }
+
+                    for (let size = 2; size <= n; size <<= 1) {
+                        const half = size >> 1;
+                        const step = -2 * Math.PI / size;
+                        for (let start = 0; start < n; start += size) {
+                            for (let k = 0; k < half; k++) {
+                                const angle = step * k;
+                                const wr = Math.cos(angle);
+                                const wi = Math.sin(angle);
+
+                                const i0 = start + k;
+                                const i1 = i0 + half;
+
+                                const tr = wr * re[i1] - wi * im[i1];
+                                const ti = wr * im[i1] + wi * re[i1];
+
+                                re[i1] = re[i0] - tr;
+                                im[i1] = im[i0] - ti;
+                                re[i0] = re[i0] + tr;
+                                im[i0] = im[i0] + ti;
+                            }
+                        }
+                    }
+                }
+
+                function fftshift(arr) {
+                    const n = arr.length;
+                    const half = n >> 1;
+                    const out = new Array(n);
+                    for (let i = 0; i < n; i++) out[i] = arr[(i + half) % n];
+                    return out;
+                }
+
+                // ----------------- 绘图 -----------------
+                function plotLine(canvas, x, y, opts) {
+                    const ctx = canvas.getContext('2d');
+                    const W = canvas.width, H = canvas.height;
+                    ctx.clearRect(0, 0, W, H);
+
+                    const padL = 70, padR = 18, padT = 18, padB = 56;
+                    const innerW = W - padL - padR;
+                    const innerH = H - padT - padB;
+
+                    const xMin = opts?.xMin ?? Math.min(...x);
+                    const xMax = opts?.xMax ?? Math.max(...x);
+                    let yMin = opts?.yMin ?? Math.min(...y);
+                    let yMax = opts?.yMax ?? Math.max(...y);
+                    if (yMax - yMin < 1e-9) { yMax = yMin + 1; }
+
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(0, 0, W, H);
+
+                    ctx.strokeStyle = 'rgba(100,116,139,0.25)';
+                    ctx.lineWidth = 1;
+                    const gridX = 8, gridY = 8;
+                    for (let i = 0; i <= gridX; i++) {
+                        const gx = padL + innerW * i / gridX;
+                        ctx.beginPath(); ctx.moveTo(gx, padT); ctx.lineTo(gx, padT + innerH); ctx.stroke();
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const gy = padT + innerH * j / gridY;
+                        ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(padL + innerW, gy); ctx.stroke();
+                    }
+
+                    // 先不画最终边框（放到曲线后重画，避免被覆盖）
+
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '12px Segoe UI, Microsoft YaHei, Arial';
+                    for (let i = 0; i <= gridX; i++) {
+                        const xv = xMin + (xMax - xMin) * i / gridX;
+                        const gx = padL + innerW * i / gridX;
+                        ctx.fillText(xv.toFixed(2), gx - 14, padT + innerH + 22);
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const yv = yMax - (yMax - yMin) * j / gridY;
+                        const gy = padT + innerH * j / gridY;
+                        ctx.fillText(yv.toFixed(2), 10, gy + 4);
+                    }
+
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = '13px Segoe UI, Microsoft YaHei, Arial';
+                    ctx.fillText('频率偏移 (GHz)', padL + innerW / 2 - 60, H - 12);
+                    ctx.save();
+                    ctx.translate(18, padT + innerH / 2 + 50);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText(opts?.yLabel ?? '相对功率 (dB)', 0, 0);
+                    ctx.restore();
+
+                    // 曲线仅允许绘制在绘图区内，防止越界到边框/标签区域
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(padL, padT, innerW, innerH);
+                    ctx.clip();
+
+                    const color = opts?.color ?? '#3182ce';
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 2.2;
+                    ctx.beginPath();
+                    for (let i = 0; i < x.length; i++) {
+                        const px = padL + innerW * (x[i] - xMin) / (xMax - xMin);
+                        const py = padT + innerH * (1 - (y[i] - yMin) / (yMax - yMin));
+                        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+
+                    ctx.restore();
+
+                    // 重画坐标轴边框，确保在曲线之上
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(padL, padT);
+                    ctx.lineTo(padL, padT + innerH);
+                    ctx.lineTo(padL + innerW, padT + innerH);
+                    ctx.stroke();
+
+                    if (opts?.title) {
+                        ctx.fillStyle = '#1e293b';
+                        ctx.font = 'bold 16px Segoe UI, Microsoft YaHei, Arial';
+                        ctx.fillText(opts.title, padL, 18);
+                    }
+                }
+
+                function plotStems(canvas, xs, ys, opts) {
+                    const ctx = canvas.getContext('2d');
+                    const W = canvas.width, H = canvas.height;
+                    ctx.clearRect(0, 0, W, H);
+
+                    const padL = 70, padR = 18, padT = 18, padB = 56;
+                    const innerW = W - padL - padR;
+                    const innerH = H - padT - padB;
+
+                    const xMin = opts?.xMin ?? Math.min(...xs);
+                    const xMax = opts?.xMax ?? Math.max(...xs);
+                    let yMin = opts?.yMin ?? Math.min(...ys);
+                    let yMax = opts?.yMax ?? Math.max(...ys);
+                    if (yMax - yMin < 1e-9) { yMax = yMin + 1; }
+
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(0, 0, W, H);
+
+                    // grid
+                    ctx.strokeStyle = 'rgba(100,116,139,0.25)';
+                    ctx.lineWidth = 1;
+                    const gridX = 8, gridY = 8;
+                    for (let i = 0; i <= gridX; i++) {
+                        const gx = padL + innerW * i / gridX;
+                        ctx.beginPath(); ctx.moveTo(gx, padT); ctx.lineTo(gx, padT + innerH); ctx.stroke();
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const gy = padT + innerH * j / gridY;
+                        ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(padL + innerW, gy); ctx.stroke();
+                    }
+
+                    // ticks
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '12px Segoe UI, Microsoft YaHei, Arial';
+                    for (let i = 0; i <= gridX; i++) {
+                        const xv = xMin + (xMax - xMin) * i / gridX;
+                        const gx = padL + innerW * i / gridX;
+                        ctx.fillText(xv.toFixed(2), gx - 14, padT + innerH + 22);
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const yv = yMax - (yMax - yMin) * j / gridY;
+                        const gy = padT + innerH * j / gridY;
+                        ctx.fillText(yv.toFixed(2), 10, gy + 4);
+                    }
+
+                    // labels
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = '13px Segoe UI, Microsoft YaHei, Arial';
+                    ctx.fillText('频率偏移 (GHz)', padL + innerW / 2 - 60, H - 12);
+                    ctx.save();
+                    ctx.translate(18, padT + innerH / 2 + 50);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText(opts?.yLabel ?? '相对功率 (dB)', 0, 0);
+                    ctx.restore();
+
+                    // stems in plot area only
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(padL, padT, innerW, innerH);
+                    ctx.clip();
+
+                    const color = opts?.color ?? '#3182ce';
+                    ctx.strokeStyle = color;
+                    ctx.fillStyle = color;
+                    ctx.lineWidth = 2;
+
+                    const yBase = Math.max(yMin, opts?.stemBase ?? yMin);
+                    for (let i = 0; i < xs.length; i++) {
+                        const px = padL + innerW * (xs[i] - xMin) / (xMax - xMin);
+                        const py = padT + innerH * (1 - (ys[i] - yMin) / (yMax - yMin));
+                        const py0 = padT + innerH * (1 - (yBase - yMin) / (yMax - yMin));
+                        ctx.beginPath();
+                        ctx.moveTo(px, py0);
+                        ctx.lineTo(px, py);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.arc(px, py, 3, 0, 2 * Math.PI);
+                        ctx.fill();
+                    }
+
+                    ctx.restore();
+
+                    // border on top
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(padL, padT);
+                    ctx.lineTo(padL, padT + innerH);
+                    ctx.lineTo(padL + innerW, padT + innerH);
+                    ctx.stroke();
+
+                    if (opts?.title) {
+                        ctx.fillStyle = '#1e293b';
+                        ctx.font = 'bold 16px Segoe UI, Microsoft YaHei, Arial';
+                        ctx.fillText(opts.title, padL, 18);
+                    }
+                }
+
+                // ----------------- 物理模型（复刻 demo_2.py 核心） -----------------
+                const model = {
+                    N: 1,
+                    P0: 10e-3,
+                    E0: Math.sqrt(10e-3),
+                    params: [],
+                    init() {
+                        this.params = [];
+                        for (let i = 0; i < 3; i++) {
+                            this.params.push({
+                                wm: 2 * Math.PI * 10e9,
+                                Vm_nf: 1.0,
+                                theta_nf: 0.0,
+                                Vm_f2: 0.0,
+                                theta_f2: 0.0,
+                            });
+                        }
+                    },
+                    calculateSpectrum(numPeriods, samplePoints) {
+                        const wm = this.params[0].wm;
+                        const fm = wm / (2 * Math.PI);
+                        const Tm = 1 / fm;
+                        const tDuration = numPeriods * Tm;
+                        const n = samplePoints;
+                        const dt = tDuration / n;
+
+                        // E(t)=E0, pure phase modulation
+                        const re = new Array(n).fill(this.E0);
+                        const im = new Array(n).fill(0);
+
+                        // apply cascaded exp(j phase)
+                        for (let si = 0; si < this.N; si++) {
+                            const p = this.params[si];
+                            for (let k = 0; k < n; k++) {
+                                const t = k * dt;
+                                const phase = p.Vm_nf * Math.sin(p.wm * t + p.theta_nf) + p.Vm_f2 * Math.sin(0.5 * p.wm * t + p.theta_f2);
+                                const c = Math.cos(phase);
+                                const s = Math.sin(phase);
+                                const r = re[k], ii = im[k];
+                                // (r + j i) * (c + j s)
+                                re[k] = r * c - ii * s;
+                                im[k] = r * s + ii * c;
+                            }
+                        }
+
+                        fft(re, im);
+
+                        // fftshift freqs/power
+                        const power = new Array(n);
+                        for (let k = 0; k < n; k++) power[k] = re[k] * re[k] + im[k] * im[k];
+                        const powerShift = fftshift(power);
+
+                        // normalize total power to P0 (like python)
+                        let total = 0;
+                        for (const v of powerShift) total += v;
+                        const scale = total > 0 ? (this.P0 / total) : 0;
+                        for (let i = 0; i < powerShift.length; i++) powerShift[i] *= scale;
+
+                        const freqs = new Array(n);
+                        for (let k = 0; k < n; k++) {
+                            const f = (k - n / 2) / (n * dt); // Hz
+                            freqs[k] = f / 1e9; // GHz
+                        }
+                        return { freqGHz: freqs, power: powerShift };
+                    },
+                    calculateFlatness(freqGHz, power, targetCarriers, thresholdDb) {
+                        if (freqGHz.length !== power.length || power.length < 8) return { score: 1e6, numCarriers: 0, dbRange: 1e6 };
+                        targetCarriers = Math.max(1, (targetCarriers | 0));
+                        thresholdDb = Math.max(0, Number(thresholdDb));
+
+                        const fmGHz = this.params[0].wm / (2 * Math.PI * 1e9);
+                        const spacing = Math.max(fmGHz / 2, 1e-6);
+
+                        const nLines = (targetCarriers % 2 === 0) ? (targetCarriers + 1) : targetCarriers;
+                        const halfK = Math.floor(nLines / 2);
+                        const desired = [];
+                        for (let k = -halfK; k <= halfK; k++) desired.push(k * spacing);
+
+                        // map desired freqs to nearest bins
+                        const idxs = desired.map(f0 => {
+                            let best = 0;
+                            let bestErr = Infinity;
+                            for (let i = 0; i < freqGHz.length; i++) {
+                                const err = Math.abs(freqGHz[i] - f0);
+                                if (err < bestErr) { bestErr = err; best = i; }
+                            }
+                            return best;
+                        });
+
+                        const carrierP = idxs.map(i => power[i]);
+                        const pPeak = Math.max(...carrierP);
+                        if (!(pPeak > 0)) return { score: 1e6, numCarriers: 0, dbRange: 1e6 };
+
+                        const carrierDb = carrierP.map(v => 10 * Math.log10(Math.max(v, 1e-18) / Math.max(pPeak, 1e-18)));
+                        const dbMax = Math.max(...carrierDb);
+                        const dbMin = Math.min(...carrierDb);
+                        const dbRange = dbMax - dbMin;
+
+                        const thresholdLevel = dbMax - thresholdDb;
+                        const numCarriers = carrierDb.filter(v => v >= thresholdLevel).length;
+
+                        if (numCarriers < targetCarriers) return { score: 1e6, numCarriers, dbRange };
+                        if (dbRange > thresholdDb) return { score: 1e6, numCarriers, dbRange };
+                        return { score: dbRange, numCarriers, dbRange };
+                    }
+                };
+
+                model.init();
+
+                // ----------------- UI 生成/同步 -----------------
+                const els = {
+                    rbN1: document.getElementById('rbN1'),
+                    rbN2: document.getElementById('rbN2'),
+                    rbN3: document.getElementById('rbN3'),
+                    stageBox: document.getElementById('stageBox'),
+                    status: document.getElementById('status'),
+                    metric: document.getElementById('metric'),
+                    prog: document.getElementById('prog'),
+                    progText: document.getElementById('progText'),
+                    scanStatus: document.getElementById('scanStatus'),
+                    logArea: document.getElementById('logArea'),
+                    targetCarriers: document.getElementById('targetCarriers'),
+                    thresholdDb: document.getElementById('thresholdDb'),
+                    btnCalc: document.getElementById('btnCalc'),
+                    btnReset: document.getElementById('btnReset'),
+                    manualUpdate: document.getElementById('manualUpdate'),
+                    btnPso: document.getElementById('btnPso'),
+                    btnStop: document.getElementById('btnStop'),
+                    btnUse: document.getElementById('btnUse'),
+                    btnSaveFile: document.getElementById('btnSaveFile'),
+                    btnLoadFile: document.getElementById('btnLoadFile'),
+                    fileLoad: document.getElementById('fileLoad'),
+                    yUnit: document.getElementById('yUnit'),
+                    canvas: document.getElementById('plot')
+                };
+
+                function _fmtForDisplay(v, opts) {
+                    if (!Number.isFinite(v)) return '';
+                    const step = Number(opts?.step);
+                    const isInt = (step === 1) || Number.isInteger(v);
+                    return isInt ? String(Math.trunc(v)) : v.toFixed(2);
+                }
+
+                function logMsg(msg) {
+                    const now = new Date();
+                    const ts = now.toTimeString().slice(0, 8);
+                    const line = `[${ts}] ${msg}`;
+                    if (els.logArea) {
+                        const prev = els.logArea.value || '';
+                        els.logArea.value = (prev ? (prev + '\n') : '') + line;
+                        els.logArea.scrollTop = els.logArea.scrollHeight;
+                        // limit lines
+                        const lines = els.logArea.value.split(/\n/);
+                        if (lines.length > 200) {
+                            els.logArea.value = lines.slice(lines.length - 200).join('\n');
+                        }
+                    }
+                }
+
+                function setStatus(s) { els.status.textContent = s; }
+                function setMetric(s) { els.metric.textContent = s; }
+                function setProgress(pct, text) {
+                    els.prog.value = pct;
+                    els.progText.textContent = text || '';
+                }
+
+                function setScanStatus(s) {
+                    if (els.scanStatus) els.scanStatus.textContent = s;
+                }
+
+                function numInput(label, value, opts, onChange) {
+                    const row = document.createElement('div');
+                    row.className = 'grid';
+
+                    const lab = document.createElement('label');
+                    lab.textContent = label;
+
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.dataset.full = String(value);
+                    input.value = _fmtForDisplay(Number(value), opts);
+                    if (opts?.step != null) input.step = String(opts.step);
+                    if (opts?.min != null) input.min = String(opts.min);
+                    if (opts?.max != null) input.max = String(opts.max);
+
+                    // 聚焦时显示全精度，失焦时显示两位小数
+                    input.addEventListener('focus', () => {
+                        if (typeof input.dataset.full === 'string') input.value = input.dataset.full;
+                    });
+                    input.addEventListener('blur', () => {
+                        const v = Number(input.dataset.full);
+                        if (Number.isFinite(v)) input.value = _fmtForDisplay(v, opts);
+                    });
+
+                    input.addEventListener('change', () => {
+                        let v = Number(input.value);
+                        if (!Number.isFinite(v)) return;
+                        if (opts?.min != null) v = Math.max(opts.min, v);
+                        if (opts?.max != null) v = Math.min(opts.max, v);
+                        input.dataset.full = String(v);
+                        input.value = _fmtForDisplay(v, opts);
+                        onChange(v);
+                        requestAutoUpdate();
+                    });
+
+                    row.appendChild(lab);
+                    row.appendChild(input);
+                    return row;
+                }
+
+                function rebuildStageInputs() {
+                    els.stageBox.innerHTML = '';
+                    const N = model.N;
+
+                    for (let i = 0; i < N; i++) {
+                        const box = document.createElement('div');
+                        box.style.padding = '10px';
+                        box.style.border = '1px solid var(--border)';
+                        box.style.borderRadius = '10px';
+                        box.style.marginBottom = '10px';
+
+                        const title = document.createElement('div');
+                        title.className = 'stageTitle';
+                        title.textContent = `第 ${i + 1} 级调制器`;
+                        box.appendChild(title);
+
+                        box.appendChild(numInput('射频频率 (GHz)', model.params[i].wm / (2 * Math.PI * 1e9), { step: 0.01, min: 1, max: 40 }, v => model.params[i].wm = 2 * Math.PI * v * 1e9));
+                        box.appendChild(numInput('Vm_nf（m1）', model.params[i].Vm_nf, { step: 0.001, min: 0, max: 5 }, v => model.params[i].Vm_nf = v));
+                        box.appendChild(numInput('Vm_f2（m2）', model.params[i].Vm_f2, { step: 0.001, min: 0, max: 5 }, v => model.params[i].Vm_f2 = v));
+                        box.appendChild(numInput('theta_nf（rad）', model.params[i].theta_nf, { step: 0.001, min: 0, max: 2 * Math.PI }, v => model.params[i].theta_nf = v));
+                        box.appendChild(numInput('theta_f2（rad）', model.params[i].theta_f2, { step: 0.001, min: 0, max: 2 * Math.PI }, v => model.params[i].theta_f2 = v));
+
+                        els.stageBox.appendChild(box);
+                    }
+                }
+
+                function getGlobalConfig() {
+                    const targetCarriers = Math.max(1, parseInt(els.targetCarriers.value || '9', 10));
+                    const thresholdDb = Math.max(0, Number(els.thresholdDb.value || '10'));
+                    // 与 MATLAB 版一致：这里固定仿真配置
+                    const numPeriods = 10;
+                    const samplePoints = 4096;
+                    return { targetCarriers, thresholdDb, numPeriods, samplePoints };
+                }
+
+                function computeAndDraw() {
+                    const cfg = getGlobalConfig();
+                    const { freqGHz, power } = model.calculateSpectrum(cfg.numPeriods, cfg.samplePoints);
+
+                    // 只显示“目标载波集合”的离散载波（避免全 FFT 点过密）
+                    const met = model.calculateFlatness(freqGHz, power, cfg.targetCarriers, cfg.thresholdDb);
+                    const fmGHz = model.params[0].wm / (2 * Math.PI * 1e9);
+                    const spacing = Math.max(fmGHz / 2, 1e-6);
+                    const nLines = (cfg.targetCarriers % 2 === 0) ? (cfg.targetCarriers + 1) : cfg.targetCarriers;
+                    const halfK = Math.floor(nLines / 2);
+                    const desired = [];
+                    for (let k = -halfK; k <= halfK; k++) desired.push(k * spacing);
+
+                    const idxs = desired.map(f0 => {
+                        let best = 0;
+                        let bestErr = Infinity;
+                        for (let i = 0; i < freqGHz.length; i++) {
+                            const err = Math.abs(freqGHz[i] - f0);
+                            if (err < bestErr) { bestErr = err; best = i; }
+                        }
+                        return best;
+                    });
+
+                    const carrierP = idxs.map(i => power[i]);
+                    const pPeak = Math.max(...carrierP);
+                    const ysDb = carrierP.map(v => 10 * Math.log10(Math.max(v, 1e-18) / Math.max(pPeak, 1e-18)));
+                    const ysDbm = carrierP.map(v => 10 * Math.log10(Math.max(v, 1e-18) / 1e-3));
+                    const unit = (els.yUnit?.value || 'db');
+                    const ys = (unit === 'dbm') ? ysDbm : ysDb;
+                    const xs = desired.slice();
+
+                    if (met.score >= 1e6) {
+                        setMetric(`不合格：有效载波=${met.numCarriers}，ΔP=${met.dbRange.toFixed(2)} dB`);
+                    } else {
+                        setMetric(`合格：有效载波=${met.numCarriers}，ΔP=${met.dbRange.toFixed(2)} dB`);
+                    }
+
+                    const xMin = -80;
+                    const xMax = 80;
+
+                    let yMin;
+                    let yMax;
+                    let yLabel;
+                    let title;
+                    if (unit === 'dbm') {
+                        const minY = Math.min(...ysDbm);
+                        const maxY = Math.max(...ysDbm);
+                        yMin = Math.min(-80, Math.floor(minY / 10) * 10 - 10);
+                        yMax = Math.max(10, Math.ceil(maxY / 10) * 10 + 5);
+                        yLabel = '功率 (dBm)';
+                        title = '级联相位调制器输出光谱（绝对功率）';
+                    } else {
+                        yMin = -60;
+                        yMax = 5;
+                        yLabel = '相对功率 (dB)';
+                        title = '级联相位调制器输出光谱（相对峰值）';
+                    }
+
+                    plotStems(els.canvas, xs, ys, { title, xMin, xMax, yMin, yMax, yLabel, color: '#3182ce', stemBase: yMin });
+
+                    return { freqGHz, power, met, xs, ys };
+                }
+
+                // ----------------- PSO（复刻 demo_2.py 的思路） -----------------
+                let stopFlag = false;
+
+                async function psoScan() {
+                    stopFlag = false;
+                    const cfg = getGlobalConfig();
+
+                    const N = model.N;
+                    const dim = 4 * N;
+                    const low = new Array(dim).fill(0);
+                    const high = new Array(dim).fill(0);
+                    for (let i = 0; i < N; i++) {
+                        low[4 * i + 0] = 0; high[4 * i + 0] = 5;
+                        low[4 * i + 1] = 0; high[4 * i + 1] = 5;
+                        low[4 * i + 2] = 0; high[4 * i + 2] = 2 * Math.PI;
+                        low[4 * i + 3] = 0; high[4 * i + 3] = 2 * Math.PI;
+                    }
+
+                    const numParticles = 28;
+                    const maxIters = 45;
+                    const inertia = 0.72;
+                    const c1 = 1.45;
+                    const c2 = 1.45;
+
+                    function rand() { return Math.random(); }
+                    function randIn(a, b) { return a + (b - a) * rand(); }
+                    function clip(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+                    const x = new Array(numParticles);
+                    const v = new Array(numParticles);
+                    for (let p = 0; p < numParticles; p++) {
+                        x[p] = new Array(dim);
+                        v[p] = new Array(dim);
+                        for (let d = 0; d < dim; d++) {
+                            x[p][d] = randIn(low[d], high[d]);
+                            v[p][d] = randIn(-0.1, 0.1);
+                        }
+                    }
+
+                    // inject current as particle 0
+                    const current = new Array(dim);
+                    for (let i = 0; i < N; i++) {
+                        const p = model.params[i];
+                        current[4 * i + 0] = p.Vm_nf;
+                        current[4 * i + 1] = p.Vm_f2;
+                        current[4 * i + 2] = p.theta_nf;
+                        current[4 * i + 3] = p.theta_f2;
+                    }
+                    x[0] = current.map((vv, idx) => clip(vv, low[idx], high[idx]));
+
+                    const pbest = x.map(arr => arr.slice());
+                    const pbestScore = new Array(numParticles).fill(Infinity);
+
+                    let gbest = null;
+                    let gbestScore = Infinity;
+                    let gbestMeta = null;
+
+                    function writeVec(vec) {
+                        for (let i = 0; i < N; i++) {
+                            model.params[i].Vm_nf = vec[4 * i + 0];
+                            model.params[i].Vm_f2 = vec[4 * i + 1];
+                            model.params[i].theta_nf = vec[4 * i + 2];
+                            model.params[i].theta_f2 = vec[4 * i + 3];
+                        }
+                    }
+
+                    function evaluate(vec) {
+                        writeVec(vec);
+                        const { freqGHz, power } = model.calculateSpectrum(cfg.numPeriods, cfg.samplePoints);
+                        const met = model.calculateFlatness(freqGHz, power, cfg.targetCarriers, cfg.thresholdDb);
+                        return { score: met.score, met, spectrum: { freqGHz, power } };
+                    }
+
+                    setStatus('扫描中...');
+                    setScanStatus('扫描中...');
+                    setProgress(0, '');
+
+                    for (let it = 0; it < maxIters; it++) {
+                        if (stopFlag) break;
+
+                        for (let pi = 0; pi < numParticles; pi++) {
+                            if (stopFlag) break;
+
+                            const r = evaluate(x[pi]);
+                            const score = r.score;
+
+                            if (score < pbestScore[pi]) {
+                                pbestScore[pi] = score;
+                                pbest[pi] = x[pi].slice();
+                            }
+                            if (score < gbestScore) {
+                                gbestScore = score;
+                                gbest = x[pi].slice();
+                                gbestMeta = r;
+                            }
+                        }
+
+                        const pct = 100 * (it + 1) / maxIters;
+                        const msg = gbestMeta?.met?.dbRange != null
+                            ? `PSO ${it + 1}/${maxIters}，当前最优 ΔP=${gbestMeta.met.dbRange.toFixed(2)} dB`
+                            : `PSO ${it + 1}/${maxIters}`;
+                        setProgress(pct, msg);
+                        setScanStatus(msg);
+
+                        if (!gbest) {
+                            await new Promise(r => setTimeout(r, 0));
+                            continue;
+                        }
+
+                        // update velocity & position
+                        for (let p = 0; p < numParticles; p++) {
+                            for (let d = 0; d < dim; d++) {
+                                const r1 = rand();
+                                const r2 = rand();
+                                const vv = inertia * v[p][d] + c1 * r1 * (pbest[p][d] - x[p][d]) + c2 * r2 * (gbest[d] - x[p][d]);
+                                v[p][d] = clip(vv, -0.5, 0.5);
+                                x[p][d] = clip(x[p][d] + v[p][d], low[d], high[d]);
+                            }
+                        }
+
+                        // yield UI
+                        await new Promise(r => setTimeout(r, 0));
+                    }
+
+                    if (gbest && Number.isFinite(gbestScore) && gbestScore < 1e6) {
+                        writeVec(gbest);
+                        rebuildStageInputs();
+                        computeAndDraw();
+                        rememberBestForCurrentN();
+                        setStatus('扫描完成（已写入当前参数）');
+                        setScanStatus('扫描完成');
+                        logMsg(`扫描完成：N=${model.N}，ΔP≈${(gbestMeta?.met?.dbRange ?? 0).toFixed(2)} dB`);
+                    } else {
+                        setStatus(stopFlag ? '扫描已停止' : '未找到合格解');
+                        setScanStatus(stopFlag ? '已停止' : '未找到合格解');
+                    }
+                }
+
+                // ----------------- 扫描结果缓存（localStorage + 文件） -----------------
+                function cacheKey() {
+                    return `demo2_best_params_N${model.N}`;
+                }
+
+                function rememberBestForCurrentN() {
+                    const data = {
+                        N: model.N,
+                        params: model.params.slice(0, model.N).map(p => ({
+                            freq_ghz: p.wm / (2 * Math.PI * 1e9),
+                            Vm_nf: p.Vm_nf,
+                            Vm_f2: p.Vm_f2,
+                            theta_nf: p.theta_nf,
+                            theta_f2: p.theta_f2
+                        }))
+                    };
+                    try {
+                        localStorage.setItem(cacheKey(), JSON.stringify(data));
+                    } catch { }
+                }
+
+                function useScannedParams() {
+                    const raw = localStorage.getItem(cacheKey());
+                    if (!raw) {
+                        setStatus(`没有 N=${model.N} 的缓存参数，请先扫描`);
+                        setScanStatus('没有缓存');
+                        return;
+                    }
+                    let data;
+                    try { data = JSON.parse(raw); } catch { setStatus('缓存解析失败'); return; }
+                    if (!data || data.N !== model.N || !Array.isArray(data.params)) {
+                        setStatus('缓存与当前 N 不匹配');
+                        return;
+                    }
+                    for (let i = 0; i < model.N; i++) {
+                        const p = data.params[i];
+                        if (!p) continue;
+                        if (Number.isFinite(Number(p.freq_ghz))) model.params[i].wm = 2 * Math.PI * Number(p.freq_ghz) * 1e9;
+                        model.params[i].Vm_nf = Number(p.Vm_nf);
+                        model.params[i].Vm_f2 = Number(p.Vm_f2);
+                        model.params[i].theta_nf = Number(p.theta_nf);
+                        model.params[i].theta_f2 = Number(p.theta_f2);
+                    }
+                    rebuildStageInputs();
+                    if (!els.manualUpdate.checked) {
+                        try { computeAndDraw(); } catch { }
+                    }
+                    setStatus(`应用已缓存的 N=${model.N} 最佳参数`);
+                    setScanStatus('已应用缓存');
+                    logMsg(`已应用缓存参数：N=${model.N}`);
+                }
+
+                function exportParamsToFile() {
+                    const out = {};
+                    for (let N = 1; N <= 3; N++) {
+                        const raw = localStorage.getItem(`demo2_best_params_N${N}`);
+                        if (!raw) continue;
+                        let data;
+                        try { data = JSON.parse(raw); } catch { continue; }
+                        if (!data || !Array.isArray(data.params)) continue;
+
+                        // MATLAB/Python 保存风格：{"1": {"0": {...}}, "2": {...}}
+                        const objN = {};
+                        for (let i = 0; i < data.params.length; i++) {
+                            objN[String(i)] = data.params[i];
+                        }
+                        out[String(N)] = objN;
+                    }
+
+                    const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'best_params_cascade.json';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    setStatus('已导出参数文件');
+                    setScanStatus('已导出');
+                }
+
+                function importParamsFromFile(file) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        let data;
+                        try { data = JSON.parse(String(reader.result || '')); } catch { setStatus('文件解析失败'); return; }
+                        // 兼容两种格式：
+                        // 1) {"1": {"0": {...}}, "2": {...}}
+                        // 2) {"N": 1, "params": [...]}
+                        if (data && typeof data === 'object' && Number.isFinite(Number(data.N)) && Array.isArray(data.params)) {
+                            const N = Number(data.N);
+                            try {
+                                localStorage.setItem(`demo2_best_params_N${N}`, JSON.stringify(data));
+                            } catch { }
+                            setStatus(`已加载 N=${N} 参数`);
+                            setScanStatus('已加载');
+                            return;
+                        }
+
+                        for (const k of Object.keys(data || {})) {
+                            const N = Number(k);
+                            if (!(N >= 1 && N <= 3)) continue;
+                            const objN = data[k];
+                            const params = [];
+                            for (let i = 0; i < 10; i++) {
+                                const p = objN?.[String(i)];
+                                if (!p) break;
+                                params.push(p);
+                            }
+                            if (params.length === 0) continue;
+                            const packed = { N, params };
+                            try {
+                                localStorage.setItem(`demo2_best_params_N${N}`, JSON.stringify(packed));
+                            } catch { }
+                        }
+
+                        setStatus('已从文件加载参数');
+                        setScanStatus('已加载');
+                        // 如果当前 N 有可用数据，立即应用
+                        useScannedParams();
+                    };
+                    reader.readAsText(file);
+                }
+
+                function resetParams() {
+                    const keepN = model.N;
+                    model.init();
+                    model.N = keepN;
+                    rebuildStageInputs();
+                    setMetric('');
+                    setProgress(0, '');
+                    setScanStatus('就绪');
+                    setStatus('参数已重置为默认值');
+                    logMsg('参数已重置为默认值');
+                    if (!els.manualUpdate.checked) {
+                        try { computeAndDraw(); } catch { }
+                    }
+                }
+
+                // 自动更新（与 MATLAB 版一致）
+                let _autoTimer = null;
+                function requestAutoUpdate() {
+                    if (els.manualUpdate.checked) return;
+                    clearTimeout(_autoTimer);
+                    _autoTimer = setTimeout(() => {
+                        try {
+                            computeAndDraw();
+                            setStatus('完成');
+                        } catch (e) {
+                            console.error(e);
+                            setStatus('计算失败：' + e.message);
+                        }
+                    }, 120);
+                }
+
+                // ----------------- 事件绑定 -----------------
+                function currentNFromRadios() {
+                    if (els.rbN1.checked) return 1;
+                    if (els.rbN2.checked) return 2;
+                    return 3;
+                }
+
+                function onNChanged() {
+                    model.N = currentNFromRadios();
+                    rebuildStageInputs();
+                    setMetric('');
+                    setProgress(0, '');
+                    setScanStatus('就绪');
+                    setStatus('就绪');
+                    logMsg(`级联数切换为 N=${model.N}`);
+                    requestAutoUpdate();
+                }
+
+                els.rbN1.addEventListener('change', onNChanged);
+                els.rbN2.addEventListener('change', onNChanged);
+                els.rbN3.addEventListener('change', onNChanged);
+
+                els.manualUpdate.addEventListener('change', () => {
+                    if (els.manualUpdate.checked) {
+                        logMsg('已切换为手动更新：修改参数后需点击“计算”才更新图像');
+                        setStatus('手动更新');
+                    } else {
+                        logMsg('已切换为自动更新：修改参数将立即更新图像');
+                        setStatus('自动更新');
+                        requestAutoUpdate();
+                    }
+                });
+
+                els.btnReset.addEventListener('click', resetParams);
+
+                els.targetCarriers.addEventListener('change', () => { requestAutoUpdate(); });
+                els.thresholdDb.addEventListener('change', () => { requestAutoUpdate(); });
+
+                els.yUnit?.addEventListener('change', () => {
+                    // 切换单位时立即重绘（不改变计算）
+                    try { computeAndDraw(); } catch { }
+                });
+
+                document.getElementById('btnCalc').addEventListener('click', () => {
+                    setStatus('计算中...');
+                    try {
+                        computeAndDraw();
+                        setStatus('完成');
+                    } catch (e) {
+                        console.error(e);
+                        setStatus('计算失败：' + e.message);
+                    }
+                });
+
+                els.btnPso.addEventListener('click', async () => {
+                    if (els.btnPso.disabled) return;
+                    els.btnPso.disabled = true;
+                    try {
+                        await psoScan();
+                    } finally {
+                        els.btnPso.disabled = false;
+                    }
+                });
+
+                if (els.btnStop) {
+                    els.btnStop.addEventListener('click', () => {
+                        stopFlag = true;
+                        setStatus('请求停止...');
+                        setScanStatus('请求停止...');
+                    });
+                }
+
+                els.btnUse.addEventListener('click', useScannedParams);
+                els.btnSaveFile.addEventListener('click', exportParamsToFile);
+                els.btnLoadFile.addEventListener('click', () => els.fileLoad.click());
+                els.fileLoad.addEventListener('change', () => {
+                    const f = els.fileLoad.files?.[0];
+                    if (!f) return;
+                    importParamsFromFile(f);
+                    els.fileLoad.value = '';
+                });
+
+                // init
+                model.N = 1;
+                els.rbN1.checked = true;
+                rebuildStageInputs();
+                setScanStatus('就绪');
+                logMsg('应用已启动');
+                plotLine(els.canvas, [-80, 80], [-60, 0], { title: '请点击“计算光谱”', xMin: -80, xMax: 80, yMin: -60, yMax: 5, color: '#94a3b8' });
+            </script>
+        </body>
+
+        </html>
+    </template>
+    <template id="tpl-demo3">
+        <!doctype html>
+        <html lang="zh-CN">
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>偏振调制器输出光谱（纯前端）</title>
+            <style>
+                :root {
+                    --bg: #f8f9fa;
+                    --card: #ffffff;
+                    --text: #1e293b;
+                    --muted: #64748b;
+                    --border: #e2e8f0;
+                    --primary: #2E86AB;
+                    --accent: #C73E1D;
+                }
+
+                * {
+                    box-sizing: border-box
+                }
+
+                body {
+                    margin: 0;
+                    font-family: Segoe UI, Microsoft YaHei, Arial, sans-serif;
+                    background: var(--bg);
+                    color: var(--text)
+                }
+
+                header {
+                    padding: 14px 18px;
+                    border-bottom: 1px solid var(--border);
+                    background: var(--card)
+                }
+
+                header h1 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 700
+                }
+
+                .wrap {
+                    display: flex;
+                    gap: 18px;
+                    padding: 19px;
+                    align-items: stretch
+                }
+
+                .panel {
+                    flex: 1;
+                    min-width: 360px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 14px
+                }
+
+                .panel h2 {
+                    margin: 0 0 10px;
+                    font-size: 14px
+                }
+
+                .row {
+                    display: grid;
+                    grid-template-columns: 1fr 130px;
+                    gap: 12px;
+                    align-items: center;
+                    margin: 14px 0
+                }
+
+                label {
+                    font-size: 12px;
+                    color: var(--muted)
+                }
+
+                input[type="range"] {
+                    width: 100%
+                }
+
+                input[type="number"] {
+                    width: 130px;
+                    padding: 7px 10px;
+                    border: 1px solid var(--border);
+                    border-radius: 8px
+                }
+
+                select {
+                    padding: 7px 10px;
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    background: #fff
+                }
+
+                .btns {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 8px;
+                    margin-top: 10px
+                }
+
+                button {
+                    border: 1px solid var(--border);
+                    background: #fff;
+                    border-radius: 10px;
+                    padding: 8px 10px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    width: 100%;
+                }
+
+                button.primary {
+                    background: var(--primary);
+                    border-color: var(--primary);
+                    color: #fff
+                }
+
+                button.accent {
+                    background: var(--accent);
+                    border-color: var(--accent);
+                    color: #fff
+                }
+
+                button:disabled {
+                    opacity: .6;
+                    cursor: not-allowed
+                }
+
+                .hint {
+                    margin-top: 10px;
+                    font-size: 12px;
+                    color: var(--muted);
+                    line-height: 1.45
+                }
+
+                .right {
+                    flex: 1;
+                    min-width: 360px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px
+                }
+
+                .toolbar {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    justify-content: space-between
+                }
+
+                .toolbar select {
+                    width: auto
+                }
+
+                .status {
+                    font-size: 12px;
+                    color: var(--muted)
+                }
+
+                canvas {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1200 / 1020;
+                    display: block;
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    background: #fff
+                }
+            </style>
+        </head>
+
+        <body>
+            <header>
+                <h1>偏振调制器输出光谱</h1>
+            </header>
+
+            <div class="wrap">
+                <section class="panel">
+                    <h2>参数调节</h2>
+
+                    <div class="row">
+                        <div>
+                            <label for="omegaRange">射频角频率 ωm</label>
+                            <input id="omegaRange" type="range" min="0.5" max="5" step="0.001" value="2" />
+                        </div>
+                        <input id="omegaNum" type="number" min="0.5" max="5" step="0.001" value="2" />
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label for="vmRange">射频幅度 Vm（调制指数 m）</label>
+                            <input id="vmRange" type="range" min="0.1" max="5" step="0.0001" value="2.4048" />
+                        </div>
+                        <input id="vmNum" type="number" min="0.1" max="5" step="0.0001" value="2.4048" />
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label for="phiRange">相位差 φ（rad）</label>
+                            <input id="phiRange" type="range" min="-3.141592653589793" max="3.141592653589793"
+                                step="0.0005" value="0" />
+                        </div>
+                        <input id="phiNum" type="number" min="-3.141592653589793" max="3.141592653589793" step="0.0005"
+                            value="0" />
+                    </div>
+
+                    <h2 style="margin-top:14px">调制模式</h2>
+                    <div class="btns">
+                        <button id="btnNormal" class="primary">正常模式</button>
+                        <button id="btnCarrier" class="accent">抑制载波</button>
+                        <button id="btnEven">抑制偶数阶</button>
+                        <button id="btnOdd">抑制奇数阶</button>
+                    </div>
+
+                    <div class="btns">
+                        <button id="btnCalc" class="primary">计算光谱</button>
+                        <button id="btnReset">重置</button>
+                    </div>
+
+                    <div class="btns">
+                        <button id="btnExport">导出 PNG</button>
+                    </div>
+                </section>
+
+                <section class="right">
+                    <div class="toolbar">
+                        <div class="status" id="status">就绪</div>
+                        <label class="status" style="display:flex;align-items:center;gap:8px">纵轴单位
+                            <select id="yUnit">
+                                <option value="db" selected>dB</option>
+                                <option value="dbm">dBm</option>
+                            </select>
+                        </label>
+                        <div class="status" id="paramBrief"></div>
+                    </div>
+                    <canvas id="plot" width="1200" height="1020"></canvas>
+                </section>
+            </div>
+
+            <script>
+                // --------- 数学/复数工具 ---------
+                function cAdd(a, b) { return { re: a.re + b.re, im: a.im + b.im }; }
+                function cAbs2(a) { return a.re * a.re + a.im * a.im; }
+                function cMul(a, b) { return { re: a.re * b.re - a.im * b.im, im: a.re * b.im + a.im * b.re }; }
+                function cExpj(x) { return { re: Math.cos(x), im: Math.sin(x) }; }
+
+                // Bessel J0/J1 via series, Jn via recurrence.
+                function besselJ0(x) {
+                    const xx = x * x / 4;
+                    let term = 1;
+                    let sum = 1;
+                    for (let k = 1; k < 40; k++) {
+                        term *= -xx / (k * k);
+                        sum += term;
+                        if (Math.abs(term) < 1e-14) break;
+                    }
+                    return sum;
+                }
+                function besselJ1(x) {
+                    if (x === 0) return 0;
+                    const xx = x * x / 4;
+                    let term = x / 2;
+                    let sum = term;
+                    for (let k = 1; k < 40; k++) {
+                        term *= -xx / (k * (k + 1));
+                        sum += term;
+                        if (Math.abs(term) < 1e-14) break;
+                    }
+                    return sum;
+                }
+                function besselJn(n, x) {
+                    if (n === 0) return besselJ0(x);
+                    if (n === 1) return besselJ1(x);
+                    if (n < 0) {
+                        const nn = -n;
+                        const val = besselJn(nn, x);
+                        return (nn % 2 === 0) ? val : -val;
+                    }
+                    if (x === 0) return 0;
+                    let jm1 = besselJ0(x);
+                    let j0 = besselJ1(x);
+                    for (let k = 1; k < n; k++) {
+                        const jp1 = (2 * k / x) * j0 - jm1;
+                        jm1 = j0;
+                        j0 = jp1;
+                    }
+                    return j0;
+                }
+
+                // --------- 绘图 ---------
+                function plotLine(canvas, x, y, opts) {
+                    const ctx = canvas.getContext('2d');
+                    const W = canvas.width, H = canvas.height;
+                    ctx.clearRect(0, 0, W, H);
+
+                    const padL = 70, padR = 18, padT = 18, padB = 56;
+                    const innerW = W - padL - padR;
+                    const innerH = H - padT - padB;
+
+                    const xMin = opts?.xMin ?? Math.min(...x);
+                    const xMax = opts?.xMax ?? Math.max(...x);
+                    let yMin = opts?.yMin ?? Math.min(...y);
+                    let yMax = opts?.yMax ?? Math.max(...y);
+                    if (yMax - yMin < 1e-9) { yMax = yMin + 1; }
+
+                    // 背景
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(0, 0, W, H);
+
+                    // 网格
+                    ctx.strokeStyle = 'rgba(100,116,139,0.25)';
+                    ctx.lineWidth = 1;
+                    const gridX = 8, gridY = 8;
+                    for (let i = 0; i <= gridX; i++) {
+                        const gx = padL + innerW * i / gridX;
+                        ctx.beginPath(); ctx.moveTo(gx, padT); ctx.lineTo(gx, padT + innerH); ctx.stroke();
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const gy = padT + innerH * j / gridY;
+                        ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(padL + innerW, gy); ctx.stroke();
+                    }
+
+                    // 先不画最终边框（放到曲线后重画，避免被覆盖）
+
+                    // 刻度
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '12px Segoe UI, Microsoft YaHei, Arial';
+                    for (let i = 0; i <= gridX; i++) {
+                        const xv = xMin + (xMax - xMin) * i / gridX;
+                        const gx = padL + innerW * i / gridX;
+                        ctx.fillText(xv.toFixed(2), gx - 14, padT + innerH + 22);
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const yv = yMax - (yMax - yMin) * j / gridY;
+                        const gy = padT + innerH * j / gridY;
+                        ctx.fillText(yv.toFixed(2), 10, gy + 4);
+                    }
+
+                    // 标签
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = '13px Segoe UI, Microsoft YaHei, Arial';
+                    ctx.fillText('频率 (归一化单位)', padL + innerW / 2 - 60, H - 12);
+                    ctx.save();
+                    ctx.translate(18, padT + innerH / 2 + 40);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText('功率 (dBm)', 0, 0);
+                    ctx.restore();
+
+                    // 曲线仅允许绘制在绘图区内，防止越界到边框/标签区域
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(padL, padT, innerW, innerH);
+                    ctx.clip();
+
+                    // 曲线
+                    const color = opts?.color ?? '#2E86AB';
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 2.2;
+                    ctx.beginPath();
+                    for (let i = 0; i < x.length; i++) {
+                        const px = padL + innerW * (x[i] - xMin) / (xMax - xMin);
+                        const py = padT + innerH * (1 - (y[i] - yMin) / (yMax - yMin));
+                        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+
+                    ctx.restore();
+
+                    // 重画坐标轴边框，确保在曲线之上
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(padL, padT);
+                    ctx.lineTo(padL, padT + innerH);
+                    ctx.lineTo(padL + innerW, padT + innerH);
+                    ctx.stroke();
+
+                    // 标题
+                    if (opts?.title) {
+                        ctx.fillStyle = '#1e293b';
+                        ctx.font = 'bold 16px Segoe UI, Microsoft YaHei, Arial';
+                        ctx.fillText(opts.title, padL, 18);
+                    }
+                }
+
+                // --------- 业务逻辑（复刻 demo_3.py 核心） ---------
+                const state = {
+                    omega_m: 2.0,
+                    Vm: 2.4048,
+                    phi: 0.0,
+                    yUnit: 'db',
+                    omegaRange: makeLinspace(-20, 20, 2000),
+                    lastY: null,
+                    lastLines: null,
+                };
+
+                function makeLinspace(a, b, n) {
+                    const out = new Array(n);
+                    const step = (b - a) / (n - 1);
+                    for (let i = 0; i < n; i++) out[i] = a + i * step;
+                    return out;
+                }
+
+                function calcDiscreteLines(max_order = 15) {
+                    const orders = [];
+                    const freqs = [];
+                    const pLin = [];
+
+                    for (let n = -max_order; n <= max_order; n++) {
+                        const Jn = besselJn(n, state.Vm);
+
+                        // Ex = exp(j*phi) * (j)^n * Jn
+                        const expjphi = cExpj(state.phi);
+                        const jPow = jToPower(n);
+                        const ex = cMul(expjphi, { re: jPow.re * Jn, im: jPow.im * Jn });
+
+                        // Ey = (-j)^n * Jn
+                        const minusJPow = minusJToPower(n);
+                        const ey = { re: minusJPow.re * Jn, im: minusJPow.im * Jn };
+
+                        const eTotal = { re: (ex.re + ey.re) / Math.SQRT2, im: (ex.im + ey.im) / Math.SQRT2 };
+                        const p = cAbs2(eTotal);
+
+                        orders.push(n);
+                        freqs.push(n * state.omega_m);
+                        pLin.push(p);
+                    }
+
+                    const pPeak = Math.max(...pLin);
+                    const pDb = pLin.map(v => 10 * Math.log10(Math.max(v, 1e-15) / Math.max(pPeak, 1e-15)));
+                    const pDbm = pLin.map(v => 10 * Math.log10(Math.max(v, 1e-15)) + 30);
+                    return { orders, freqs, pLin, pDb, pDbm };
+                }
+
+                function plotStemsOrders(canvas, lines, opts) {
+                    const ctx = canvas.getContext('2d');
+                    const W = canvas.width, H = canvas.height;
+                    ctx.clearRect(0, 0, W, H);
+
+                    const padL = 70, padR = 18, padT = 22, padB = 56;
+                    const innerW = W - padL - padR;
+                    const innerH = H - padT - padB;
+
+                    const xMin = opts?.xMin ?? -20;
+                    const xMax = opts?.xMax ?? 20;
+                    const yMin = opts?.yMin ?? -80;
+                    const yMax = opts?.yMax ?? 10;
+
+                    const toX = (x) => padL + innerW * (x - xMin) / (xMax - xMin);
+                    const toY = (y) => padT + innerH * (1 - (y - yMin) / (yMax - yMin));
+
+                    // 背景
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(0, 0, W, H);
+
+                    // 网格
+                    ctx.strokeStyle = 'rgba(100,116,139,0.25)';
+                    ctx.lineWidth = 1;
+                    const gridX = 8, gridY = 8;
+                    for (let i = 0; i <= gridX; i++) {
+                        const gx = padL + innerW * i / gridX;
+                        ctx.beginPath(); ctx.moveTo(gx, padT); ctx.lineTo(gx, padT + innerH); ctx.stroke();
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const gy = padT + innerH * j / gridY;
+                        ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(padL + innerW, gy); ctx.stroke();
+                    }
+
+                    // 刻度
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '12px Segoe UI, Microsoft YaHei, Arial';
+                    for (let i = 0; i <= gridX; i++) {
+                        const xv = xMin + (xMax - xMin) * i / gridX;
+                        const gx = padL + innerW * i / gridX;
+                        ctx.fillText(xv.toFixed(2), gx - 14, padT + innerH + 22);
+                    }
+                    for (let j = 0; j <= gridY; j++) {
+                        const yv = yMax - (yMax - yMin) * j / gridY;
+                        const gy = padT + innerH * j / gridY;
+                        ctx.fillText(yv.toFixed(2), 10, gy + 4);
+                    }
+
+                    const ys = opts?.ys ?? lines.pDbm;
+                    const yLabel = opts?.yLabel ?? '功率 (dBm)';
+
+                    // 轴标签
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = '13px Segoe UI, Microsoft YaHei, Arial';
+                    ctx.fillText('频率 (归一化单位)', padL + innerW / 2 - 60, H - 12);
+                    ctx.save();
+                    ctx.translate(18, padT + innerH / 2 + 40);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText(yLabel, 0, 0);
+                    ctx.restore();
+
+                    // 谱线（仅绘图区内）
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(padL, padT, innerW, innerH);
+                    ctx.clip();
+
+                    const cEven = opts?.colorEven ?? '#2E86AB';
+                    const cOdd = opts?.colorOdd ?? '#A23B72';
+                    const cCarrier = opts?.colorCarrier ?? '#C73E1D';
+                    const baseY = toY(yMin);
+
+                    const labelMaxAbsN = opts?.labelMaxAbsN ?? 9;
+                    const labelMinY = opts?.labelMinY ?? (yMin + 8);
+
+                    for (let i = 0; i < lines.orders.length; i++) {
+                        const n = lines.orders[i];
+                        const fx = lines.freqs[i];
+                        const py = ys[i];
+                        if (fx < xMin - 1e-9 || fx > xMax + 1e-9) continue;
+
+                        const px = toX(fx);
+                        const yTip = toY(py);
+
+                        let color;
+                        if (n === 0) color = cCarrier;
+                        else if (Math.abs(n) % 2 === 0) color = cEven;
+                        else color = cOdd;
+
+                        ctx.strokeStyle = color;
+                        ctx.fillStyle = color;
+                        ctx.lineWidth = 2.2;
+
+                        ctx.beginPath();
+                        ctx.moveTo(px, baseY);
+                        ctx.lineTo(px, yTip);
+                        ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.arc(px, yTip, 3, 0, 2 * Math.PI);
+                        ctx.fill();
+
+                        // 奇偶阶标注（避免太拥挤：只标注 |n|<=labelMaxAbsN 且功率足够高）
+                        if (Math.abs(n) <= labelMaxAbsN && py >= labelMinY) {
+                            ctx.font = '11px Segoe UI, Microsoft YaHei, Arial';
+                            ctx.fillStyle = color;
+                            const tag = (n === 0) ? '0(载波)' : (Math.abs(n) % 2 === 0 ? `${n}(偶)` : `${n}(奇)`);
+                            ctx.fillText(tag, px + 4, Math.max(padT + 12, yTip - 6));
+                        }
+                    }
+
+                    ctx.restore();
+
+                    // 坐标轴边框
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(padL, padT);
+                    ctx.lineTo(padL, padT + innerH);
+                    ctx.lineTo(padL + innerW, padT + innerH);
+                    ctx.stroke();
+
+                    // 标题
+                    if (opts?.title) {
+                        ctx.fillStyle = '#1e293b';
+                        ctx.font = 'bold 16px Segoe UI, Microsoft YaHei, Arial';
+                        ctx.fillText(opts.title, padL, 18);
+                    }
+
+                    // 图例（右上角，避免挤到标题）
+                    const legendW = 170;
+                    const legendH = 62;
+                    const lx = padL + innerW - legendW - 8;
+                    const ly = padT + 8;
+                    ctx.save();
+                    ctx.globalAlpha = 0.92;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.strokeStyle = 'rgba(100,116,139,0.35)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.roundRect(lx, ly, legendW, legendH, 8);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+
+                    ctx.font = '12px Segoe UI, Microsoft YaHei, Arial';
+                    ctx.fillStyle = cEven;
+                    ctx.fillText('偶数阶：蓝', lx + 10, ly + 22);
+                    ctx.fillStyle = cOdd;
+                    ctx.fillText('奇数阶：紫', lx + 10, ly + 40);
+                    ctx.fillStyle = cCarrier;
+                    ctx.fillText('载波：红', lx + 10, ly + 58);
+                    ctx.restore();
+                }
+
+                function calcSpectrum() {
+                    const max_order = 15;
+                    const y = new Array(state.omegaRange.length).fill(0);
+
+                    for (let n = -max_order; n <= max_order; n++) {
+                        const Jn = besselJn(n, state.Vm);
+
+                        // Ex = exp(j*phi) * (j)^n * Jn
+                        const expjphi = cExpj(state.phi);
+                        const jPow = jToPower(n);
+                        const ex = cMul(expjphi, { re: jPow.re * Jn, im: jPow.im * Jn });
+
+                        // Ey = (-j)^n * Jn
+                        const minusJPow = minusJToPower(n);
+                        const ey = { re: minusJPow.re * Jn, im: minusJPow.im * Jn };
+
+                        const eTotal = { re: (ex.re + ey.re) / Math.SQRT2, im: (ex.im + ey.im) / Math.SQRT2 };
+                        const p = cAbs2(eTotal);
+
+                        const target = n * state.omega_m;
+                        let bestIdx = 0;
+                        let bestErr = Infinity;
+                        for (let i = 0; i < state.omegaRange.length; i++) {
+                            const err = Math.abs(state.omegaRange[i] - target);
+                            if (err < bestErr) { bestErr = err; bestIdx = i; }
+                        }
+                        y[bestIdx] += p;
+                    }
+                    return y;
+                }
+
+                function jToPower(n) {
+                    // j^n cycles every 4: 1, j, -1, -j
+                    const k = ((n % 4) + 4) % 4;
+                    if (k === 0) return { re: 1, im: 0 };
+                    if (k === 1) return { re: 0, im: 1 };
+                    if (k === 2) return { re: -1, im: 0 };
+                    return { re: 0, im: -1 };
+                }
+                function minusJToPower(n) {
+                    // (-j)^n cycles every 4: 1, -j, -1, j
+                    const k = ((n % 4) + 4) % 4;
+                    if (k === 0) return { re: 1, im: 0 };
+                    if (k === 1) return { re: 0, im: -1 };
+                    if (k === 2) return { re: -1, im: 0 };
+                    return { re: 0, im: 1 };
+                }
+
+                function toDbm(linear) {
+                    // 10*log10(P)+30, with floor
+                    return linear.map(v => 10 * Math.log10(Math.max(v, 1e-15)) + 30);
+                }
+
+                function updateBrief() {
+                    document.getElementById('paramBrief').textContent = `ωm=${state.omega_m.toFixed(2)}  Vm=${state.Vm.toFixed(2)}  φ=${state.phi.toFixed(2)} rad`;
+                }
+
+                function setStatus(s) {
+                    document.getElementById('status').textContent = s;
+                }
+
+                function redraw(title, color) {
+                    // 使用离散谱线 + 奇偶阶标注，更接近物理“谱线”显示
+                    const lines = state.lastLines ?? calcDiscreteLines(15);
+                    state.lastLines = lines;
+
+                    const unit = state.yUnit || 'db';
+                    const ys = (unit === 'dbm') ? lines.pDbm : lines.pDb;
+                    const yLabel = (unit === 'dbm') ? '功率 (dBm)' : '相对功率 (dB)';
+                    const maxY = Math.max(...ys);
+                    const yMin = (unit === 'dbm') ? -80 : -60;
+                    const yMax = (unit === 'dbm') ? Math.max(maxY + 8, -10) : Math.max(maxY + 8, 5);
+
+                    plotStemsOrders(document.getElementById('plot'), lines, {
+                        title: title ?? '偏振调制器输出光谱（离散谱线）',
+                        xMin: -20,
+                        xMax: 20,
+                        yMin,
+                        yMax,
+                        ys,
+                        yLabel,
+                        colorEven: '#2E86AB',
+                        colorOdd: '#A23B72',
+                        colorCarrier: '#C73E1D',
+                        labelMaxAbsN: 9,
+                        labelMinY: yMin + 12
+                    });
+                }
+
+                // --------- UI 绑定 ---------
+                function bindRangeNumber(rangeId, numId, onChange) {
+                    const r = document.getElementById(rangeId);
+                    const n = document.getElementById(numId);
+                    if (n && n.dataset.prettyInstalled !== '1') {
+                        n.dataset.prettyInstalled = '1';
+                        n.dataset.full = n.value;
+                        n.addEventListener('focus', () => {
+                            if (typeof n.dataset.full === 'string') n.value = n.dataset.full;
+                        });
+                        n.addEventListener('blur', () => {
+                            const v = Number(n.dataset.full);
+                            if (Number.isFinite(v)) n.value = v.toFixed(2);
+                        });
+                    }
+                    const sync = (val) => {
+                        const num = Number(val);
+                        r.value = String(val);
+                        if (n) {
+                            if (Number.isFinite(num)) n.dataset.full = String(num);
+                            if (document.activeElement !== n) {
+                                n.value = Number.isFinite(num) ? num.toFixed(2) : String(val);
+                            }
+                        }
+                        onChange(Number(val));
+                    };
+                    r.addEventListener('input', () => sync(r.value));
+                    n.addEventListener('change', () => {
+                        let v = parseFloat(n.value);
+                        if (!Number.isFinite(v)) return;
+                        const min = parseFloat(n.min), max = parseFloat(n.max);
+                        v = Math.max(min, Math.min(max, v));
+                        sync(v);
+                    });
+                }
+
+                bindRangeNumber('omegaRange', 'omegaNum', (v) => { state.omega_m = v; updateBrief(); });
+                bindRangeNumber('vmRange', 'vmNum', (v) => { state.Vm = v; updateBrief(); });
+                bindRangeNumber('phiRange', 'phiNum', (v) => { state.phi = v; updateBrief(); });
+
+                document.getElementById('yUnit')?.addEventListener('change', (e) => {
+                    state.yUnit = String(e.target.value || 'db');
+                    redraw();
+                });
+
+                document.getElementById('btnCalc').addEventListener('click', () => {
+                    setStatus('计算中...');
+                    state.lastY = calcSpectrum();
+                    state.lastLines = calcDiscreteLines(15);
+                    redraw('偏振调制器输出光谱', '#2E86AB');
+                    setStatus('完成');
+                });
+
+                document.getElementById('btnReset').addEventListener('click', () => {
+                    state.omega_m = 2.0;
+                    state.Vm = 2.4048;
+                    state.phi = 0.0;
+                    document.getElementById('omegaRange').value = '2';
+                    document.getElementById('omegaNum').value = '2';
+                    document.getElementById('vmRange').value = '2.4048';
+                    document.getElementById('vmNum').value = '2.4048';
+                    document.getElementById('phiRange').value = '0';
+                    document.getElementById('phiNum').value = '0';
+                    state.lastY = null;
+                    state.lastLines = null;
+                    updateBrief();
+                    redraw('请设置参数后点击“计算光谱”按钮', '#64748b');
+                    setStatus('就绪');
+                });
+
+                document.getElementById('btnNormal').addEventListener('click', () => {
+                    state.Vm = 1.5;
+                    state.phi = Math.PI / 3;
+                    document.getElementById('vmRange').value = String(state.Vm);
+                    document.getElementById('vmNum').value = String(state.Vm);
+                    document.getElementById('phiRange').value = String(state.phi);
+                    document.getElementById('phiNum').value = String(state.phi);
+                    updateBrief();
+                    state.lastY = calcSpectrum();
+                    state.lastLines = calcDiscreteLines(15);
+                    redraw('正常模式 - 所有边带均存在', '#2E86AB');
+                    setStatus('完成');
+                });
+
+                document.getElementById('btnCarrier').addEventListener('click', () => {
+                    state.Vm = 2.4048;
+                    state.phi = 0.0;
+                    document.getElementById('vmRange').value = String(state.Vm);
+                    document.getElementById('vmNum').value = String(state.Vm);
+                    document.getElementById('phiRange').value = String(state.phi);
+                    document.getElementById('phiNum').value = String(state.phi);
+                    updateBrief();
+                    state.lastY = calcSpectrum();
+                    state.lastLines = calcDiscreteLines(15);
+                    redraw('抑制载波模式 (Vm=2.4048)', '#C73E1D');
+                    setStatus('完成');
+                });
+
+                document.getElementById('btnEven').addEventListener('click', () => {
+                    state.Vm = 2.0;
+                    state.phi = Math.PI;
+                    document.getElementById('vmRange').value = String(state.Vm);
+                    document.getElementById('vmNum').value = String(state.Vm);
+                    document.getElementById('phiRange').value = String(state.phi);
+                    document.getElementById('phiNum').value = String(state.phi);
+                    updateBrief();
+                    state.lastY = calcSpectrum();
+                    state.lastLines = calcDiscreteLines(15);
+                    redraw('抑制偶数阶模式 (φ=π)', '#F18F01');
+                    setStatus('完成');
+                });
+
+                document.getElementById('btnOdd').addEventListener('click', () => {
+                    state.Vm = 2.0;
+                    state.phi = 0.0;
+                    document.getElementById('vmRange').value = String(state.Vm);
+                    document.getElementById('vmNum').value = String(state.Vm);
+                    document.getElementById('phiRange').value = String(state.phi);
+                    document.getElementById('phiNum').value = String(state.phi);
+                    updateBrief();
+                    state.lastY = calcSpectrum();
+                    state.lastLines = calcDiscreteLines(15);
+                    redraw('抑制奇数阶模式 (φ=0)', '#A23B72');
+                    setStatus('完成');
+                });
+
+                document.getElementById('btnExport').addEventListener('click', () => {
+                    const canvas = document.getElementById('plot');
+                    const url = canvas.toDataURL('image/png');
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'demo_3_spectrum.png';
+                    a.click();
+                });
+
+                // 初始绘制等待界面
+                updateBrief();
+                redraw('请设置参数后点击“计算光谱”按钮', '#64748b');
+            </script>
+        </body>
+
+        </html>
+    </template>
+
+    <script>
+        const DEMOS = {
+            demo1: { tpl: 'tpl-demo1', title: '选项 1  MZM 光谱分析', sub: 'DSB、SSB、CS' },
+            demo2: { tpl: 'tpl-demo2', title: '选项 2  级联相位调制器多载波', sub: '级联相位调制' },
+            demo3: { tpl: 'tpl-demo3', title: '选项 3  偏振调制器输出光谱', sub: '偏振调制器' },
+        };
+
+        const viewMenu = document.getElementById('viewMenu');
+        const viewDemo = document.getElementById('viewDemo');
+        const frame = document.getElementById('demoFrame');
+        const topTitle = document.getElementById('topTitle');
+        const topSub = document.getElementById('topSub');
+        const btnHome = document.getElementById('btnHome');
+        const btnReload = document.getElementById('btnReload');
+        const ariaStatus = document.getElementById('ariaStatus');
+
+        let currentKey = null;
+
+        function setView(isDemo) {
+            viewMenu.classList.toggle('active', !isDemo);
+            viewDemo.classList.toggle('active', isDemo);
+            btnHome.style.display = isDemo ? '' : 'none';
+            btnReload.style.display = isDemo ? '' : 'none';
+
+            if (!isDemo) {
+                topTitle.textContent = 'Microwave  Demo 集合';
+                topSub.innerHTML = '选择一个选项进入；按 <span class="kbd">Esc</span> 可返回';
+                ariaStatus.textContent = '已返回到选项页';
+            }
+        }
+
+        function openDemo(key) {
+            const item = DEMOS[key];
+            if (!item) return;
+
+            currentKey = key;
+            setView(true);
+
+            topTitle.textContent = item.title;
+            topSub.textContent = item.sub;
+            ariaStatus.textContent = `正在打开 ${item.title}`;
+
+            const tpl = document.getElementById(item.tpl);
+            if (!tpl) {
+                frame.srcdoc = `<!doctype html><meta charset="utf-8"><title>缺少内容</title><pre>未找到模板：${item.tpl}</pre>`;
+                return;
+            }
+            frame.srcdoc = tpl.innerHTML;
+        }
+
+        function goHome() {
+            currentKey = null;
+            frame.srcdoc = '';
+            history.replaceState(null, '', location.pathname + location.search);
+            setView(false);
+        }
+
+        function syncFromHash() {
+            const key = (location.hash || '').replace('#', '').trim();
+            if (key && DEMOS[key]) {
+                openDemo(key);
+            } else {
+                goHome();
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-demo]');
+            if (btn) {
+                const key = btn.getAttribute('data-demo');
+                history.replaceState(null, '', `#${key}`);
+                openDemo(key);
+                return;
+            }
+
+            if (e.target === btnHome) {
+                goHome();
+                return;
+            }
+
+            if (e.target === btnReload) {
+                if (currentKey) openDemo(currentKey);
+                return;
+            }
+        });
+
+        window.addEventListener('hashchange', syncFromHash);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (viewDemo.classList.contains('active')) goHome();
+            }
+        });
+
+        syncFromHash();
+    </script>
+</body>
+
+</html>
